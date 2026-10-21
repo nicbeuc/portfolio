@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/netlify": "^8.2.10",
+    "@lottiefiles/dotlottie-wc": "^0.10.0",
     "astro": "^7.4.1"
   }
 }

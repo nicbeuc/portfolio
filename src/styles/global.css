@@ -1,0 +1,136 @@
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*:not(dialog) {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  /* max-width: 100%; */
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* Global Variables */
+
+:root {
+  /* Layout */
+  --page-margin-x: 2rem;
+  --page-margin-y: 1rem;
+
+  /* Grid */
+  --grid-global-columns: 12;
+  --grid-global-gutter: 1rem;
+
+  /* Spacing */
+  --spacing-base: .5rem;
+  --spacing-01: calc(var(--spacing-base) * 1);
+  --spacing-02: calc(var(--spacing-base) * 2);
+  --spacing-03: calc(var(--spacing-base) * 3);
+  --spacing-04: calc(var(--spacing-base) * 4);
+  --spacing-05: calc(var(--spacing-base) * 5);
+  --spacing-06: calc(var(--spacing-base) * 6);
+  --spacing-07: calc(var(--spacing-base) * 7);
+  --spacing-08: calc(var(--spacing-base) * 8);
+  --spacing-09: calc(var(--spacing-base) * 9);
+  --spacing-10: calc(var(--spacing-base) * 10);
+  --spacing-11: calc(var(--spacing-base) * 11);
+  --spacing-12: calc(var(--spacing-base) * 12);
+
+  /* Easing */
+  --ease-out-quart: cubic-bezier(0.17, 0.84, 0.44, 1);
+}
+
+/* Global Styles */
+
+body {
+  font-family: var(--font-switzer);
+  font-size: .875rem;
+}
+
+main {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: repeat(var(--grid-global-columns), 1fr);
+  column-gap: var(--grid-global-gutter);
+  padding-inline: var(--page-margin-x);
+}
+
+main > * {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Utility Classes */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

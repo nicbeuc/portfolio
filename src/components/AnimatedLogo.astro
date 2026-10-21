@@ -1,0 +1,166 @@
+---
+
+---
+
+<animated-logo>
+  <span>N</span>
+  <span>i</span>
+  <span>c</span>
+  <span>k&nbsp;</span>
+  <span>B</span>
+  <span>e</span>
+  <span>u</span>
+  <span>c</span>
+  <span>h</span>
+  <span>a</span>
+  <span>t</span>
+  <svg viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="10" r="10" pathLength="1"/>
+  </svg>
+</animated-logo>
+
+<style>
+  animated-logo {
+    --animated-logo-total-duration: 650ms;
+    --animated-logo-letter-easing: var(--ease-out-quart);
+    --animated-logo-letter-gap: 100ms;
+    --animated-logo-letter-stagger: 25ms;
+    --animated-logo-circle-easing: cubic-bezier(0.42, 0.01, 0, 0.99);
+    --animated-logo-circle-size: 160%;
+    --animated-logo-circle-delay: 150ms;
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+    width: 2.25ch;
+    overflow: visible;
+    white-space: nowrap;
+  }
+
+  animated-logo span {
+    --animated-logo-letter-delay: calc(var(--animated-logo-letter-stagger) * (sibling-count() - sibling-index()));
+    --animated-logo-letter-fade-count: calc(sibling-count() - 2);
+    --animated-logo-letter-fade-duration: calc((var(--animated-logo-total-duration) - var(--animated-logo-letter-gap)) - (var(--animated-logo-letter-stagger) * (var(--animated-logo-letter-fade-count) - 1)));
+    --animated-logo-letter-slide-duration: calc(var(--animated-logo-total-duration) - var(--animated-logo-letter-delay));
+    display: inline-block;
+    animation-timing-function: var(--animated-logo-letter-easing);
+    animation-delay: var(--animated-logo-letter-delay);
+    animation-fill-mode: both;
+  }
+
+  animated-logo[data-animate="out"] span {
+    --animated-logo-letter-delay: calc(var(--animated-logo-letter-stagger) * (sibling-index() - 1) + var(--animated-logo-circle-delay));
+  }
+
+  animated-logo[data-animate] span:not(:first-child, :nth-child(5)) {
+    animation-duration: var(--animated-logo-letter-fade-duration);
+  }
+
+  animated-logo[data-animate="in"] span:not(:first-child, :nth-child(5)) {
+    animation-name: letterFadeOut;
+  }
+
+  animated-logo[data-animate="out"] span:not(:first-child, :nth-child(5)) {
+    animation-name: letterFadeIn;
+  }
+
+  animated-logo[data-animate] span:nth-child(5) {
+    animation-duration: var(--animated-logo-letter-slide-duration);
+  }
+
+  animated-logo[data-animate="in"] span:nth-child(5) {
+    animation-name: letterSlideIn;
+  }
+
+  animated-logo[data-animate="out"] span:nth-child(5) {
+      --animated-logo-letter-delay: var(--animated-logo-circle-delay);
+    animation-name: letterSlideOut;
+  }
+
+  animated-logo svg {
+    width: var(--animated-logo-circle-size);
+    height: var(--animated-logo-circle-size);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: visible;
+  }
+
+  animated-logo svg circle {
+    stroke-width: .08em;
+    transform: rotate(90deg) scaleX(-1);
+    transform-origin: center;
+    stroke: currentColor;
+    stroke-dasharray: 0 1.01;
+  }
+
+  animated-logo[data-animate] svg circle {
+    animation-duration: calc(var(--animated-logo-total-duration) - var(--animated-logo-circle-delay));
+    animation-delay: var(--animated-logo-circle-delay);
+    animation-timing-function: var(--animated-logo-circle-easing);
+    animation-fill-mode: both;
+  }
+
+  animated-logo[data-animate="in"] svg circle {
+    animation-name: circleFillIn;
+  }
+
+  animated-logo[data-animate="out"] svg circle {
+    animation-name: circleFillOut;
+    animation-delay: 0s;
+  }
+
+  @keyframes letterFadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes letterFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes letterSlideIn {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-2.675ch);
+    }
+  }
+
+  @keyframes letterSlideOut {
+    from {
+      transform: translateX(-2.675ch);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes circleFillIn {
+    from {
+      stroke-dasharray: 0 1.01;
+    }
+    to {
+      stroke-dasharray: 1.01 1.01;
+    }
+  }
+
+  @keyframes circleFillOut {
+    from {
+      stroke-dasharray: 1.01 1.01;
+    }
+    to {
+      stroke-dasharray: 0 1.01;
+    }
+  }
+</style>

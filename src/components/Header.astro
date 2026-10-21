@@ -1,0 +1,33 @@
+---
+import HeaderLink from './HeaderLink.astro';
+import AnimatedLogo from './AnimatedLogo.astro';
+---
+
+<header>
+  <div class="logo">
+    <AnimatedLogo />
+  </div>
+  <nav>
+    <HeaderLink href="#" download>Resume</HeaderLink>
+    <HeaderLink href="mailto:hi@nickbeuchat.com">Contact</HeaderLink>
+  </nav>
+</header>
+
+<style>
+  header {
+    padding-block: var(--page-margin-y);
+    grid-template-areas:
+      "logo logo logo . . . . . nav nav nav nav";
+  }
+
+  .logo {
+    grid-area: logo;
+  }
+
+  nav {
+    grid-area: nav;
+    justify-self: end;
+    display: flex;
+    gap: var(--spacing-04);
+  }
+</style>
