@@ -95,15 +95,24 @@ h6 {
 
   /* Easing */
   --ease-out-quart: cubic-bezier(0.17, 0.84, 0.44, 1);
+
+  @media (width < 989px) {
+    --page-margin-x: 1rem;
+  }
 }
 
 /* Global Styles */
+
+html {
+  overscroll-behavior: none;
+}
 
 body {
   font-family: var(--font-switzer);
   font-size: .875rem;
   display: grid;
   min-height: 200vh;
+  background-color: #fff;
   grid-template-columns: repeat(var(--grid-global-columns), 1fr);
   column-gap: var(--grid-global-gutter);
   padding-inline: var(--page-margin-x);
