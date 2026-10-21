@@ -12,10 +12,17 @@ import AnimatedLogo from './AnimatedLogo.astro';
     <HeaderLink href="mailto:hi@nickbeuchat.com">Contact</HeaderLink>
   </nav>
 </header>
+<div data-header-threshold></div>
 
 <style>
   header {
     padding-block: var(--page-margin-y);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 100;
+    padding-inline: var(--page-margin-x);
     grid-template-areas:
       "logo logo logo . . . . . nav nav nav nav";
   }
@@ -29,5 +36,13 @@ import AnimatedLogo from './AnimatedLogo.astro';
     justify-self: end;
     display: flex;
     gap: var(--spacing-04);
+  }
+
+  [data-header-threshold] {
+    position: absolute;
+    top: 4rem;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
   }
 </style>

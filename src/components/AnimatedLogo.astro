@@ -1,7 +1,3 @@
----
-
----
-
 <animated-logo>
   <span>N</span>
   <span>i</span>
@@ -164,3 +160,57 @@
     }
   }
 </style>
+
+<script>
+  class AnimatedLogo extends HTMLElement {
+    #compact = false;
+    #desiredCompact = false;
+    #playing = false;
+    #observer: IntersectionObserver | null = null;
+    #thresholdEl: Element | null = null;
+
+    constructor() {
+      super();
+      this.#thresholdEl = document.querySelector('[data-header-threshold]');
+    }
+
+    connectedCallback() {
+      this.#setUpObserver();
+    }
+
+    #setUpObserver() {
+      if (!this.#thresholdEl) return;
+
+      this.addEventListener('animationend', () => {
+        const stillRunning = this.getAnimations({ subtree: true }).some(
+          animation => animation.playState === 'running'
+        );
+        if (stillRunning) return;
+
+        this.#playing = false;
+        this.#sync();
+      });
+
+      this.#observer = new IntersectionObserver(([entry]) => {
+        this.#desiredCompact = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        this.#sync();
+      });
+
+      this.#observer.observe(this.#thresholdEl);
+    }
+
+    #sync() {
+      if (this.#playing || this.#desiredCompact === this.#compact) return;
+      if (!this.#desiredCompact && !this.dataset.animate) return;
+      this.#compact = this.#desiredCompact;
+      this.#playing = true;
+      this.dataset.animate = this.#compact ? 'in' : 'out';
+    }
+
+    disconnectedCallback() {
+      this.#observer?.disconnect();
+    }
+  }
+
+  customElements.define('animated-logo', AnimatedLogo);
+</script>

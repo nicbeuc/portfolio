@@ -102,14 +102,17 @@ h6 {
 body {
   font-family: var(--font-switzer);
   font-size: .875rem;
-}
-
-main {
   display: grid;
-  min-height: 100vh;
+  min-height: 200vh;
   grid-template-columns: repeat(var(--grid-global-columns), 1fr);
   column-gap: var(--grid-global-gutter);
   padding-inline: var(--page-margin-x);
+}
+
+body > * {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
 }
 
 main > * {
