@@ -8,14 +8,24 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
       <span>Nick Beuchat</span> designs and builds thoughtful, high-performing web experiences, from concept to code.
     </h1>
   </div>
-  <LogoShuffle />
+  <div class="logos">
+    <p>Selected Clients</p>
+    <LogoShuffle />
+  </div>
 </section>
 
 <style>
   section {
     padding-top: max(15rem, 40vh);
+    align-items: end;
     grid-template-areas:
       "a a a a a a a a b b b b";
+    row-gap: var(--spacing-04);
+
+    @media (width < 1200px) {
+      grid-template-areas:
+        "a a a a a a b b b b b b";
+    }
 
     @media (width < 989px) {
       grid-template-areas:
@@ -30,5 +40,15 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
 
   .text {
     grid-area: a;
+  }
+
+  .logos {
+    grid-area: b;
+  }
+
+  .logos p {
+    color: var(--color-foreground-dimmed);
+    font-size: var(--font-size-body-sm);
+    margin-bottom: var(--spacing-01);
   }
 </style>

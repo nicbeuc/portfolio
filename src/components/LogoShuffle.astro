@@ -6,239 +6,285 @@ const byPath = import.meta.glob<SvgComponent>('../assets/client-logos/*.svg', {
   import: 'default',
 });
 
-const group1Paths = [
-  '../assets/client-logos/shakeshack.svg',
-  '../assets/client-logos/climbworks.svg',
-  '../assets/client-logos/mig.svg',
-  '../assets/client-logos/storeease.svg',
+const logoGroupPaths = [
+  [
+    '../assets/client-logos/shakeshack.svg',
+    '../assets/client-logos/climbworks.svg',
+    '../assets/client-logos/mig.svg',
+    '../assets/client-logos/storeease.svg',
+  ],
+  [
+    '../assets/client-logos/ea.svg',
+    '../assets/client-logos/enchante.svg',
+    '../assets/client-logos/mcnabb.svg',
+    '../assets/client-logos/singenuity.svg',
+  ],
+  [
+    '../assets/client-logos/xgames.svg',
+    '../assets/client-logos/sofitukker.svg',
+    '../assets/client-logos/doingthings.svg',
+    '../assets/client-logos/donatelife.svg',
+  ],
+  [
+    '../assets/client-logos/raptv.svg',
+    '../assets/client-logos/xul.svg',
+    '../assets/client-logos/ambition.svg',
+    '../assets/client-logos/teg.svg',
+  ],
 ];
 
-const group2Paths = [
-  '../assets/client-logos/ea.svg',
-  '../assets/client-logos/enchante.svg',
-  '../assets/client-logos/mcnabb.svg',
-  '../assets/client-logos/singenuity.svg',
-];
-
-const group3Paths = [
-  '../assets/client-logos/xgames.svg',
-  '../assets/client-logos/sofitukker.svg',
-  '../assets/client-logos/doingthings.svg',
-  '../assets/client-logos/donatelife.svg',
-];
-
-const group4Paths = [
-  '../assets/client-logos/raptv.svg',
-  '../assets/client-logos/xul.svg',
-  '../assets/client-logos/ambition.svg',
-  '../assets/client-logos/teg.svg',
-];
-
-const group1logos = group1Paths.map((path) => {
-  const Logo = byPath[path];
-  if (!Logo) throw new Error(`Logo not found: ${path}`);
-  return Logo;
-});
-
-const group2logos = group2Paths.map((path) => {
-  const Logo = byPath[path];
-  if (!Logo) throw new Error(`Logo not found: ${path}`);
-  return Logo;
-});
-
-const group3logos = group3Paths.map((path) => {
-  const Logo = byPath[path];
-  if (!Logo) throw new Error(`Logo not found: ${path}`);
-  return Logo;
-});
-
-const group4logos = group4Paths.map((path) => {
-  const Logo = byPath[path];
-  if (!Logo) throw new Error(`Logo not found: ${path}`);
-  return Logo;
+const logoGroups = logoGroupPaths.map((group) => {
+  return group.map((path) => {
+    const Logo = byPath[path];
+    if (!Logo) throw new Error(`Logo not found: ${path}`);
+    return Logo;
+  });
 });
 ---
 
 <div class="container">
-  <ul>
-    {group1logos.map((Logo) => (
-      <li>
-        <Logo />
-      </li>
-    ))}
-  </ul>
-  <!-- <ul>
-    {group2logos.map((Logo) => (
-      <li>
-        <Logo />
-      </li>
-    ))}
-  </ul>
-  <ul>
-    {group3logos.map((Logo) => (
-      <li>
-        <Logo />
-      </li>
-    ))}
-  </ul>
-  <ul>
-    {group4logos.map((Logo) => (
-      <li>
-        <Logo />
-      </li>
-    ))}
-  </ul> -->
+  {logoGroups.map((group, groupIndex) => (
+    <div class="group" style={`
+      --logo-shuffle-group-index: ${groupIndex};
+      --logo-shuffle-group-logo-count: ${group.length};
+    `}>
+      <div class="group-mask">
+        <ul>
+          {group.map((Logo) => (
+            <li>
+              <Logo />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  ))}
 </div>
 
 <style>
+
+.container {
+  display: grid;
+  gap: var(--spacing-005);
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.group {
+  --logo-shuffle-duration: 16s;
+  --logo-shuffle-blur-amount: 4px;
+  --logo-shuffle-stagger: 0.1s;
+  --logo-shuffle-radius: 4rem;
+  --logo-shuffle-offset: 40%;
+  --logo-shuffle-container-height: 4rem;
+  --logo-shuffle-container-padding: 1rem;
+  --logo-shuffle-container-border-radius: 0.25rem;
+  --logo-shuffle-logo-max-height: 2rem;
+  --logo-shuffle-logo-max-width: 4rem;
+  --logo-shuffle-delay: calc(var(--logo-shuffle-stagger) * var(--logo-shuffle-group-index));
+  background-color: var(--color-background-dimmed);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: var(--logo-shuffle-container-border-radius);
+  height: var(--logo-shuffle-container-height);
+}
+
+.group-mask {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mask: linear-gradient(to bottom, transparent 0%, black 10% 90%, transparent 100%);
+  overflow: hidden;
+}
+
 ul {
-  --logo-shuffle-duration: 15s;
-  --logo-shuffle-num: 4;
-  --radius: 3rem;
   position: relative;
-  height: var(--radius);
-  /* overflow: hidden; */
-  perspective: 2000px;
+  /* height: var(--radius); */
+  width: min(var(--logo-shuffle-logo-max-width), calc(100% - var(--logo-shuffle-container-padding) * 2));
+  height: min(var(--logo-shuffle-logo-max-height), calc(100% - var(--logo-shuffle-container-padding) * 2));
+  perspective: 80px;
 }
 
 li {
+  --logo-shuffle-logo-phase-1-top: 0;
+  --logo-shuffle-logo-phase-2-top: var(--logo-shuffle-offset);
+  --logo-shuffle-logo-phase-3-top: 0;
+  --logo-shuffle-logo-phase-4-top: calc(var(--logo-shuffle-offset) * -1);
+  --logo-shuffle-logo-phase-5-top: 0;
+  --logo-shuffle-logo-phase-1-transform: rotateX(0deg) translateY(0);
+  --logo-shuffle-logo-phase-2-transform: rotateX(90deg) translateY(var(--logo-shuffle-radius));
+  --logo-shuffle-logo-phase-3-transform: rotateX(180deg) translateY(0);
+  --logo-shuffle-logo-phase-4-transform: rotateX(270deg) translateY(calc(var(--logo-shuffle-radius) * -1));
+  --logo-shuffle-logo-phase-5-transform: rotateX(360deg) translateY(0);
+  --logo-shuffle-logo-phase-1-filter: blur(0);
+  --logo-shuffle-logo-phase-2-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-3-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-4-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-5-filter: blur(0);
+  --logo-shuffle-logo-phase-1-opacity: 1;
+  --logo-shuffle-logo-phase-2-opacity: 0;
+  --logo-shuffle-logo-phase-3-opacity: 0;
+  --logo-shuffle-logo-phase-4-opacity: 0;
+  --logo-shuffle-logo-phase-5-opacity: 1;
   position: absolute;
   left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: var(--logo-shuffle-logo-phase-1-opacity);
   width: 100%;
   height: 100%;
   display: grid;
   place-items: center;
-  /* backface-visibility: hidden; */
+  backface-visibility: hidden;
+  animation-name: rotate4;
   animation-duration: var(--logo-shuffle-duration);
   animation-timing-function: var(--ease-out-quart);
   animation-iteration-count: infinite;
+  animation-delay: var(--logo-shuffle-delay);
 }
 
-li:nth-child(1) {
-  animation-name: wheel1;
+@media (prefers-reduced-motion: no-preference) {
+  li {
+    will-change: top, transform, filter, opacity;
+    top: var(--logo-shuffle-logo-phase-1-top);
+    transform: var(--logo-shuffle-logo-phase-1-transform);
+    filter: var(--logo-shuffle-logo-phase-1-filter);
+  }
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 li:nth-child(2) {
-  animation-name: wheel2;
+  --logo-shuffle-logo-phase-1-top: calc(var(--logo-shuffle-offset) * -1);
+  --logo-shuffle-logo-phase-2-top: 0;
+  --logo-shuffle-logo-phase-3-top: var(--logo-shuffle-offset);
+  --logo-shuffle-logo-phase-4-top: 0;
+  --logo-shuffle-logo-phase-5-top: calc(var(--logo-shuffle-offset) * -1);
+  --logo-shuffle-logo-phase-1-transform: rotateX(270deg) translateY(calc(var(--logo-shuffle-radius) * -1));
+  --logo-shuffle-logo-phase-2-transform: rotateX(360deg) translateY(0);
+  --logo-shuffle-logo-phase-3-transform: rotateX(450deg) translateY(var(--logo-shuffle-radius));
+  --logo-shuffle-logo-phase-4-transform: rotateX(540deg) translateY(0);
+  --logo-shuffle-logo-phase-5-transform: rotateX(630deg) translateY(calc(var(--logo-shuffle-radius) * -1));
+  --logo-shuffle-logo-phase-1-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-2-filter: blur(0);
+  --logo-shuffle-logo-phase-3-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-4-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-5-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-1-opacity: 0;
+  --logo-shuffle-logo-phase-2-opacity: 1;
+  --logo-shuffle-logo-phase-3-opacity: 0;
+  --logo-shuffle-logo-phase-4-opacity: 0;
+  --logo-shuffle-logo-phase-5-opacity: 0;
 }
 
 li:nth-child(3) {
-  animation-name: wheel3;
+  --logo-shuffle-logo-phase-1-top: 0;
+  --logo-shuffle-logo-phase-2-top: calc(var(--logo-shuffle-offset) * -1);
+  --logo-shuffle-logo-phase-3-top: 0;
+  --logo-shuffle-logo-phase-4-top: var(--logo-shuffle-offset);
+  --logo-shuffle-logo-phase-5-top: 0;
+  --logo-shuffle-logo-phase-1-transform: rotateX(180deg) translateY(0);
+  --logo-shuffle-logo-phase-2-transform: rotateX(270deg) translateY(calc(var(--logo-shuffle-radius) * -1));
+  --logo-shuffle-logo-phase-3-transform: rotateX(360deg) translateY(0);
+  --logo-shuffle-logo-phase-4-transform: rotateX(450deg) translateY(var(--logo-shuffle-radius));
+  --logo-shuffle-logo-phase-5-transform: rotateX(540deg) translateY(0);
+  --logo-shuffle-logo-phase-1-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-2-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-3-filter: blur(0);
+  --logo-shuffle-logo-phase-4-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-5-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-1-opacity: 0;
+  --logo-shuffle-logo-phase-2-opacity: 0;
+  --logo-shuffle-logo-phase-3-opacity: 1;
+  --logo-shuffle-logo-phase-4-opacity: 0;
+  --logo-shuffle-logo-phase-5-opacity: 0;
 }
 
 li:nth-child(4) {
-  animation-name: wheel4;
+  --logo-shuffle-logo-phase-1-top: var(--logo-shuffle-offset);
+  --logo-shuffle-logo-phase-2-top: 0;
+  --logo-shuffle-logo-phase-3-top: calc(var(--logo-shuffle-offset) * -1);
+  --logo-shuffle-logo-phase-4-top: 0;
+  --logo-shuffle-logo-phase-5-top: var(--logo-shuffle-offset);
+  --logo-shuffle-logo-phase-1-transform: rotateX(90deg) translateY(var(--logo-shuffle-radius));
+  --logo-shuffle-logo-phase-2-transform: rotateX(180deg) translateY(0);
+  --logo-shuffle-logo-phase-3-transform: rotateX(270deg) translateY(calc(var(--logo-shuffle-radius) * -1));
+  --logo-shuffle-logo-phase-4-transform: rotateX(360deg) translateY(0);
+  --logo-shuffle-logo-phase-5-transform: rotateX(450deg) translateY(var(--logo-shuffle-radius));
+  --logo-shuffle-logo-phase-1-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-2-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-3-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-4-filter: blur(0);
+  --logo-shuffle-logo-phase-5-filter: blur(var(--logo-shuffle-blur-amount));
+  --logo-shuffle-logo-phase-1-opacity: 0;
+  --logo-shuffle-logo-phase-2-opacity: 0;
+  --logo-shuffle-logo-phase-3-opacity: 0;
+  --logo-shuffle-logo-phase-4-opacity: 1;
+  --logo-shuffle-logo-phase-5-opacity: 0;
 }
 
-@keyframes wheel1 {
-  0%, 18% {
-    top: 0;
-    transform: rotateX(0deg) translateY(0);
-    opacity: 1;
-  }
-  25%, 43% {
-    top: 25%;
-    transform: rotateX(90deg) translateY(var(--radius));
-    opacity: 0;
-  }
-  50%, 68% {
-    top: 0;
-    transform: rotateX(180deg) translateY(0);
-    opacity: 0;
-  }
-  75%, 93% {
-    top: -25%;
-    transform: rotateX(270deg) translateY(calc(var(--radius) * -1));
-    opacity: 0;
-  }
-  100% {
-    top: 0;
-    transform: rotateX(360deg) translateY(0);
-    opacity: 1;
+@media (prefers-reduced-motion: reduce) {
+  li {
+    animation-name: rotate4ReducedMotion;
   }
 }
 
-@keyframes wheel2 {
-  0%, 18% {
-    top: -25%;
-    transform: rotateX(270deg) translateY(calc(var(--radius) * -1));
-    opacity: 0;
+@keyframes rotate4 {
+  0%, 20% {
+    top: var(--logo-shuffle-logo-phase-1-top);
+    transform: var(--logo-shuffle-logo-phase-1-transform);
+    filter: var(--logo-shuffle-logo-phase-1-filter);
+    opacity: var(--logo-shuffle-logo-phase-1-opacity);
   }
-  25%, 43% {
-    top: 0;
-    transform: rotateX(360deg) translateY(0);
-    opacity: 1;
+  25%, 45% {
+    top: var(--logo-shuffle-logo-phase-2-top);
+    transform: var(--logo-shuffle-logo-phase-2-transform);
+    filter: var(--logo-shuffle-logo-phase-2-filter);
+    opacity: var(--logo-shuffle-logo-phase-2-opacity);
   }
-  50%, 68% {
-    top: 25%;
-    transform: rotateX(450deg) translateY(var(--radius));
-    opacity: 0;
+  50%, 70% {
+    top: var(--logo-shuffle-logo-phase-3-top);
+    transform: var(--logo-shuffle-logo-phase-3-transform);
+    filter: var(--logo-shuffle-logo-phase-3-filter);
+    opacity: var(--logo-shuffle-logo-phase-3-opacity);
   }
-  75%, 93% {
-    top: 0;
-    transform: rotateX(540deg) translateY(0);
-    opacity: 0;
+  75%, 95% {
+    top: var(--logo-shuffle-logo-phase-4-top);
+    transform: var(--logo-shuffle-logo-phase-4-transform);
+    filter: var(--logo-shuffle-logo-phase-4-filter);
+    opacity: var(--logo-shuffle-logo-phase-4-opacity);
   }
   100% {
-    top: -25%;
-    transform: rotateX(630deg) translateY(calc(var(--radius) * -1));
-    opacity: 0;
+    top: var(--logo-shuffle-logo-phase-5-top);
+    transform: var(--logo-shuffle-logo-phase-5-transform);
+    filter: var(--logo-shuffle-logo-phase-5-filter);
+    opacity: var(--logo-shuffle-logo-phase-5-opacity);
   }
 }
 
-@keyframes wheel3 {
-  0%, 18% {
-    top: 0;
-    transform: rotateX(180deg) translateY(0);
-    opacity: 0;
+@keyframes rotate4ReducedMotion {
+  0%, 20% {
+    opacity: var(--logo-shuffle-logo-phase-1-opacity);
   }
-  25%, 43% {
-    top: -25%;
-    transform: rotateX(270deg) translateY(calc(var(--radius) * -1));
-    opacity: 0;
+  25%, 45% {
+    opacity: var(--logo-shuffle-logo-phase-2-opacity);
   }
-  50%, 68% {
-    top: 0;
-    transform: rotateX(360deg) translateY(0);
-    opacity: 1;
+  50%, 70% {
+    opacity: var(--logo-shuffle-logo-phase-3-opacity);
   }
-  75%, 93% {
-    top: 25%;
-    transform: rotateX(450deg) translateY(var(--radius));
-    opacity: 0;
+  75%, 95% {
+    opacity: var(--logo-shuffle-logo-phase-4-opacity);
   }
   100% {
-    top: 0;
-    transform: rotateX(540deg) translateY(0);
-    opacity: 0;
-  }
-}
-
-@keyframes wheel4 {
-  0%, 18% {
-    top: 25%;
-    transform: rotateX(90deg) translateY(var(--radius));
-    opacity: 0;
-  }
-  25%, 43% {
-    top: 0;
-    transform: rotateX(180deg) translateY(0);
-    opacity: 0;
-  }
-  50%, 68% {
-    top: -25%;
-    transform: rotateX(270deg) translateY(calc(var(--radius) * -1));
-    opacity: 0;
-  }
-  75%, 93% {
-    top: 0;
-    transform: rotateX(360deg) translateY(0);
-    opacity: 1;
-  }
-  100% {
-    top: 25%;
-    transform: rotateX(450deg) translateY(var(--radius));
-    opacity: 0;
+    opacity: var(--logo-shuffle-logo-phase-5-opacity);
   }
 }
 </style>
