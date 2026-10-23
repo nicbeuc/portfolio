@@ -4,11 +4,11 @@ import AnimatedLogo from './AnimatedLogo.astro';
 ---
 
 <header>
-  <div class="logo">
+  <a href="/" class="logo">
     <AnimatedLogo />
-  </div>
+  </a>
   <nav>
-    <HeaderLink href="#" download>Resume</HeaderLink>
+    <HeaderLink href="#" download>Resumé</HeaderLink>
     <HeaderLink href="mailto:hi@nickbeuchat.com">Contact</HeaderLink>
   </nav>
 </header>
@@ -23,26 +23,40 @@ import AnimatedLogo from './AnimatedLogo.astro';
     top: 0;
     z-index: 100;
     color: #fff;
-    mix-blend-mode: difference;
+    mix-blend-mode: exclusion;
     padding-inline: var(--page-margin-x);
     grid-template-areas:
-      "logo logo logo . . . . . nav nav nav nav";
+      "a a a . . . . . b b b b";
+
+    @media (width < 989px) {
+      grid-template-areas:
+        "a a b b";
+    }
   }
 
   .logo {
-    grid-area: logo;
+    grid-area: a;
+    width: fit-content;
   }
 
   nav {
-    grid-area: nav;
+    grid-area: b;
     justify-self: end;
     display: flex;
     gap: var(--spacing-04);
+
+    @media (width < 989px) {
+      gap: var(--spacing-02);
+    }
   }
 
   [data-header-threshold] {
     position: absolute;
     top: 4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
     width: 1px;
     height: 1px;
     pointer-events: none;

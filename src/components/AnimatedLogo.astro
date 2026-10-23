@@ -10,7 +10,7 @@
   <span>h</span>
   <span>a</span>
   <span>t</span>
-  <svg viewBox="0 0 20 20" fill="none">
+  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
     <circle cx="10" cy="10" r="10" pathLength="1"/>
   </svg>
 </animated-logo>
@@ -163,6 +163,8 @@
 </style>
 
 <script>
+  import { prefersReducedMotion } from '../utils';
+
   class AnimatedLogo extends HTMLElement {
     #compact = false;
     #desiredCompact = false;
@@ -176,6 +178,7 @@
     }
 
     connectedCallback() {
+      if (prefersReducedMotion()) return;
       this.#setUpObserver();
     }
 
