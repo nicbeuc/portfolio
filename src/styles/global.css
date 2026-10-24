@@ -113,6 +113,7 @@ h6 {
 
   /* Typography */
   --font-size-heading: clamp(1.5rem, 1rem + 1.5vw, 2rem);
+  --font-size-heading-sm: clamp(1.25rem, 0.75rem + 1.25vw, 1.5rem);
   --font-size-body: 0.875rem;
   --font-size-body-sm: 0.75rem;
 
@@ -135,7 +136,7 @@ body {
   font-size: var(--font-size-body);
   display: grid;
   align-items: start;
-  min-height: 200vh;
+  min-height: 100vh;
   background-color: var(--color-background);
   grid-template-columns: repeat(var(--grid-global-columns), 1fr);
   column-gap: var(--grid-global-gutter);
@@ -171,6 +172,15 @@ ul,ol {
 }
 
 /* Typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
 
 .heading {
   letter-spacing: -0.025em;

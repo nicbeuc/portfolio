@@ -1,0 +1,136 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer>
+  <div class="top">
+    <h2>Get In Touch</h2>
+    <div class="content">
+      <p class="heading"><span>Nick Beuchat</span> designs and builds thoughtful, high-performing web experiences, from concept to code.</p>
+      <div class="link-group">
+        <h3>Contact</h3>
+        <a href="mailto:hi@nickbeuchat.com" class="link">hi@nickbeuchat.com</a>
+      </div>
+      <div class="link-group">
+        <h3>Channels</h3>
+        <a href="https://www.linkedin.com/in/nickbeuchat/" class="link">LinkedIn</a>
+        <a href="https://github.com/nickbeuchat" class="link">GitHub</a>
+      </div>
+      <a href="#" class="link" download>Download Resumé</a>
+    </div>
+  </div>
+  <div class="bottom">
+    <p>© {currentYear}. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    min-height: max(40rem, 100vh);
+    display: grid;
+    align-items: start;
+    grid-template-columns: subgrid;
+    grid-template-rows: auto 1fr;
+    padding-bottom: var(--page-margin-y);
+  }
+
+  footer > * {
+    grid-column: 1 / -1;
+    display: grid;
+    align-items: start;
+    grid-template-columns: subgrid;
+  }
+
+  .top {
+    grid-template-areas:
+      "a a a a a b b b b b b b";
+    align-self: center;
+
+    @media (width < 989px) {
+      grid-template-areas:
+        "b b b b";
+    }
+  }
+
+  .top h2 {
+    grid-area: a;
+    color: var(--color-foreground-dimmed);
+    font-size: var(--font-size-heading-sm);
+
+    @media (width < 989px) {
+      display: none;
+    }
+  }
+
+  .top p {
+    color: var(--color-foreground-dimmed);
+    margin-bottom: var(--spacing-06);
+    grid-column: 1 / -1;
+  }
+
+  .top p span {
+    color: var(--color-foreground);
+  }
+
+  .content {
+    grid-area: b;
+    display: grid;
+    align-items: start;
+    /* row-gap: var(--spacing-06); */
+    column-gap: var(--spacing-08);
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "a a a"
+      "b c d";
+
+    @media (width < 989px) {
+      grid-template-areas:
+        "a a a"
+        "b b d"
+        "c c d";
+    }
+  }
+
+  .link-group {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    justify-self: start;
+    column-gap: var(--spacing-01);
+  }
+
+  .link-group:nth-child(2) {
+    grid-area: b;
+  }
+
+  .link-group:nth-child(3) {
+    grid-area: c;
+
+    @media (width < 989px) {
+      margin-top: var(--spacing-04);
+    }
+  }
+
+  .link-group h3 {
+    font-size: var(--font-size-body);
+    color: var(--color-foreground-dimmed);
+    margin-bottom: var(--spacing-005);
+    grid-column: 1 / -1;
+  }
+
+  .content > a {
+    grid-area: d;
+    align-self: end;
+
+    @media (width < 989px) {
+      align-self: baseline;
+      margin-top: 1lh;
+    }
+  }
+
+  .bottom p {
+    font-size: var(--font-size-body-sm);
+    color: var(--color-foreground-dimmed);
+    grid-column: 1 / -1;
+  }
+</style>
