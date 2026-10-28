@@ -26,12 +26,19 @@ const currentYear = new Date().getFullYear();
 
 <style>
   footer {
-    min-height: max(40rem, 100vh);
+    min-height: var(--page-height-basis);
     display: grid;
     align-items: start;
     grid-template-columns: subgrid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 1fr auto;
     padding-bottom: var(--page-margin-y);
+    position: relative;
+    z-index: 2;
+
+    /* Weird bug in Chrome where the opposite of the above property takes effect */
+    @supports (not (-webkit-hyphens:none)) and (not (-moz-appearance:none)) and (list-style-type:"*") {
+      grid-template-rows: auto 1fr;
+    }
   }
 
   footer > * {

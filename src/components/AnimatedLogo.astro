@@ -31,6 +31,9 @@
     overflow: visible;
     white-space: nowrap;
     color: inherit;
+    /* timeline-trigger-name: --header-threshold-out;
+    timeline-trigger-source: scroll(y root);
+    timeline-trigger-activation-range-start: 100px; */
   }
 
   animated-logo span {
@@ -42,7 +45,28 @@
     animation-timing-function: var(--animated-logo-letter-easing);
     animation-delay: var(--animated-logo-letter-delay);
     animation-fill-mode: both;
+
+    /* @supports (timeline-trigger-name: --t) {
+      animation-fill-mode: forwards;
+      animation-trigger: --header-threshold-out play-forwards play-backwards;
+      animation-timing-function: var(--ease-in-out-quart);
+      animation-delay: var(--animated-logo-letter-delay);
+    } */
   }
+
+  /* animated-logo span:not(:first-child, :nth-child(5)) {
+    @supports (timeline-trigger-name: --t) {
+      animation-name: letterFadeOut;
+      animation-duration: var(--animated-logo-letter-fade-duration);
+    }
+  }
+
+  animated-logo span:nth-child(5) {
+    @supports (timeline-trigger-name: --t) {
+      animation-name: letterSlideIn;
+      animation-duration: var(--animated-logo-letter-slide-duration);
+    }
+  } */
 
   animated-logo[data-animate="out"] span {
     --animated-logo-letter-delay: calc(var(--animated-logo-letter-stagger) * (sibling-index() - 1) + var(--animated-logo-circle-delay));
@@ -89,6 +113,16 @@
     transform-origin: center;
     stroke: currentColor;
     stroke-dasharray: 0 1.01;
+
+    /* @supports (timeline-trigger-name: --t) {
+      animation-name: circleFillIn;
+      animation-duration: calc(var(--animated-logo-total-duration) - var(--animated-logo-circle-delay));
+      animation-delay: var(--animated-logo-circle-delay);
+      animation-timing-function: var(--animated-logo-circle-easing);
+      animation-fill-mode: both;
+      animation-timing-function: var(--ease-in-out-quart);
+      animation-trigger: --header-threshold-out play-forwards play-backwards;
+    } */
   }
 
   animated-logo[data-animate] svg circle {
@@ -179,6 +213,7 @@
 
     connectedCallback() {
       if (prefersReducedMotion()) return;
+
       this.#setUpObserver();
     }
 

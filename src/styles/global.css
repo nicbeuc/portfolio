@@ -79,6 +79,7 @@ h6 {
   /* Layout */
   --page-margin-x: 2rem;
   --page-margin-y: 1rem;
+  --page-height-basis: max(40rem, 100vh);
 
   /* Grid */
   --grid-global-columns: 12;
@@ -107,6 +108,7 @@ h6 {
 
   /* Easing */
   --ease-out-quart: cubic-bezier(0.17, 0.84, 0.44, 1);
+  --ease-in-out-quart: cubic-bezier(0.770, 0.000, 0.175, 1.000);
 
   /* Transitions */
   --transition-color: color var(--duration-fast) var(--ease-out-quart);
@@ -152,6 +154,11 @@ body > * {
 main {
   position: relative;
   z-index: 1;
+  margin-bottom: var(--page-height-basis);
+
+  @supports (animation-timeline: view()) {
+    timeline-scope: --scroll-scope;
+  }
 }
 
 main > * {

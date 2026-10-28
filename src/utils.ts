@@ -5,3 +5,19 @@
 export function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
+
+/**
+ * Checks if the browser supports the animation-timeline property.
+ * @returns True if the browser supports the animation-timeline property, false otherwise.
+ */
+export function supportsAnimationTimeline(): boolean {
+  return CSS.supports('animation-timeline', 'view()');
+}
+
+/**
+ * Checks if the browser supports the animation-trigger property.
+ * @returns True if the browser supports the animation-trigger property, false otherwise.
+ */
+export function supportsAnimationTrigger(): boolean {
+  return CSS.supports('timeline-trigger-name', '--t');
+}

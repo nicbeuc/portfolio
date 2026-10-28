@@ -52,6 +52,7 @@ import AnimatedLogo from './AnimatedLogo.astro';
 
   [data-header-threshold] {
     position: absolute;
+    pointer-events: none;
     top: 4rem;
     white-space: nowrap;
     overflow: hidden;
@@ -59,6 +60,38 @@ import AnimatedLogo from './AnimatedLogo.astro';
     clip-path: inset(50%);
     width: 1px;
     height: 1px;
-    pointer-events: none;
+
+    /* @supports (timeline-trigger-name: --t) {
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4rem;
+      timeline-trigger: --header-threshold-in view() contain / exit, --header-threshold-out view() exit / contain;
+      background-color: lightgreen;
+      animation-name: triggerDebug1, triggerDebug2;
+      animation-duration: .25s;
+      animation-fill-mode: forwards;
+      animation-timing-function: linear;
+      animation-trigger: --header-threshold-in play-forwards, --header-threshold-out play-forwards;
+      display: none;
+    } */
+  }
+
+  @keyframes triggerDebug1 {
+    from {
+      background-color: lightgreen;
+    }
+    to {
+      background-color: lightblue;
+    }
+  }
+
+  @keyframes triggerDebug2 {
+    from {
+      background-color: lightblue;
+    }
+    to {
+      background-color: lightcoral;
+    }
   }
 </style>

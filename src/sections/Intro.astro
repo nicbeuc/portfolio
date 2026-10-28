@@ -3,24 +3,47 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
 ---
 
 <section>
-  <div class="text">
-    <h1 class="heading">
-      <span>Nick Beuchat</span> designs and builds thoughtful, high-performing web experiences, from concept to code.
-    </h1>
-  </div>
-  <div class="logos">
-    <p>Selected Clients</p>
-    <LogoShuffle />
-  </div>
+  <scroll-fade>
+    <div class="wrapper">
+      <div class="text">
+        <h1 class="heading">
+          <span>Nick Beuchat</span> designs and builds thoughtful, high-performing web experiences, from concept to code.
+        </h1>
+      </div>
+      <div class="logos">
+        <p>Selected Clients</p>
+        <LogoShuffle />
+      </div>
+    </div>
+  </scroll-fade>
 </section>
 
 <style>
   section {
-    padding-top: max(15rem, 40vh);
+    /* padding-top: max(15rem, 40vh); */
+    min-height: var(--page-height-basis);
+    align-items: center;
+    grid-template-columns: repeat(var(--grid-global-columns), 1fr);
+    column-gap: var(--grid-global-gutter);
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-inline: var(--page-margin-x);
+  }
+
+  scroll-fade {
+    display: contents;
+  }
+
+  .wrapper {
+    grid-column: 1 / -1;
+    display: grid;
     align-items: end;
+    row-gap: var(--spacing-04);
+    will-change: opacity, filter, transform;
+    grid-template-columns: subgrid;
     grid-template-areas:
       "a a a a a a a a b b b b";
-    row-gap: var(--spacing-04);
 
     @media (width < 1200px) {
       grid-template-areas:
@@ -31,6 +54,17 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
       grid-template-areas:
         "a a a a"
         "b b b b";
+    }
+
+    @supports (animation-timeline: view()) {
+      animation: scrollFadeOut linear forwards;
+      animation-timeline: --scroll-scope;
+      animation-range-start: cover 50%;
+      animation-range-end: cover 80%;
+
+      @media (prefers-reduced-motion: reduce) {
+        animation: scrollFadeOutReducedMotion linear forwards;
+      }
     }
   }
 
@@ -51,4 +85,105 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
     font-size: var(--font-size-body-sm);
     margin-bottom: var(--spacing-01);
   }
+
+  @keyframes scrollFadeOut {
+    from {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      filter: blur(4px);
+      transform: scale(0.98);
+    }
+  }
+
+  @keyframes scrollFadeOutReducedMotion {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 </style>
+
+<script>
+import { supportsAnimationTimeline, prefersReducedMotion } from '@/utils';
+
+class ScrollFade extends HTMLElement {
+  #wrapper: HTMLElement | null = null;
+  #subject: HTMLElement | null = null;
+  #coverStart = 0.5;
+  #coverEnd = 0.8;
+  #blurPx = 4;
+  #scaleStart = 1;
+  #scaleEnd = 0.98;
+  #frame = 0;
+  #progress = -1;
+  #top = 0;
+  #height = 0;
+  #view = 0;
+  #observer: ResizeObserver | null = null;
+
+  connectedCallback() {
+    if (supportsAnimationTimeline()) return;
+
+    console.log('supportsAnimationTimeline', supportsAnimationTimeline());
+
+    this.#wrapper = this.querySelector('.wrapper');
+    this.#subject = document.querySelector('[data-scroll-scope]');
+    if (!this.#wrapper || !this.#subject) return;
+
+    this.#measure();
+    this.#observer = new ResizeObserver(this.#measure);
+    this.#observer.observe(this.#subject);
+    this.#observer.observe(document.documentElement);
+
+    window.addEventListener('scroll', this.#onScroll, { passive: true });
+    window.visualViewport?.addEventListener('resize', this.#measure);
+  }
+
+  disconnectedCallback() {
+    cancelAnimationFrame(this.#frame);
+    this.#observer?.disconnect();
+    window.removeEventListener('scroll', this.#onScroll);
+    window.visualViewport?.removeEventListener('resize', this.#measure);
+  }
+
+  #onScroll = () => {
+    if (this.#frame) return;
+    this.#frame = requestAnimationFrame(this.#update);
+  };
+
+  #measure = () => {
+    const subject = this.#subject;
+    if (!subject) return;
+
+    const rect = subject.getBoundingClientRect();
+    this.#top = rect.top + window.scrollY;
+    this.#height = rect.height;
+    this.#view = document.documentElement.clientHeight;
+    this.#update();
+  };
+
+  #update = () => {
+    this.#frame = 0;
+    const cover = (window.scrollY - this.#top + this.#view) / (this.#height + this.#view);
+    const progress = Math.min(1, Math.max(0, (cover - this.#coverStart) / (this.#coverEnd - this.#coverStart)));
+    if (progress === this.#progress) return;
+    this.#progress = progress;
+
+    const wrapper = this.#wrapper;
+    if (!wrapper) return;
+    wrapper.style.opacity = String(1 - progress);
+    // wrapper.style.visibility = progress === 1 ? 'hidden' : '';
+    if (prefersReducedMotion()) return;
+    wrapper.style.filter = progress === 0 ? '' : `blur(${this.#blurPx * progress}px)`;
+    wrapper.style.transform = progress === 1 ? '' : `scale(${this.#scaleEnd + (this.#scaleStart - this.#scaleEnd) * progress})`;
+  };
+}
+
+customElements.define('scroll-fade', ScrollFade);
+</script>
