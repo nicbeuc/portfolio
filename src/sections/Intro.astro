@@ -51,7 +51,7 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
         "a a a a a a b b b b b b";
     }
 
-    @media (width < 989px) {
+    @media (width < 990px) {
       grid-template-areas:
         "a a a a"
         "b b b b";
@@ -59,7 +59,6 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
 
     @supports (animation-timeline: view()) {
       animation: scrollFadeOut linear forwards;
-      /* animation-timeline: --scroll-scope; */
       animation-timeline: scroll(y root);
       animation-range-start: 1px;
       animation-range-end: var(--header-collapse-distance);

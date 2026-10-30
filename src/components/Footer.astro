@@ -53,7 +53,7 @@ const currentYear = new Date().getFullYear();
       "a a a a a b b b b b b b";
     align-self: center;
 
-    @media (width < 989px) {
+    @media (width < 990px) {
       grid-template-areas:
         "b b b b";
     }
@@ -64,7 +64,7 @@ const currentYear = new Date().getFullYear();
     color: var(--color-foreground-dimmed);
     font-size: var(--font-size-heading-sm);
 
-    @media (width < 989px) {
+    @media (width < 990px) {
       display: none;
     }
   }
@@ -90,7 +90,7 @@ const currentYear = new Date().getFullYear();
       "a a a"
       "b c d";
 
-    @media (width < 989px) {
+    @media (width < 990px) {
       grid-template-areas:
         "a a a"
         "b b d"
@@ -113,7 +113,7 @@ const currentYear = new Date().getFullYear();
   .link-group:nth-child(3) {
     grid-area: c;
 
-    @media (width < 989px) {
+    @media (width < 990px) {
       margin-top: var(--spacing-04);
     }
   }
@@ -129,7 +129,7 @@ const currentYear = new Date().getFullYear();
     grid-area: d;
     align-self: end;
 
-    @media (width < 989px) {
+    @media (width < 990px) {
       align-self: baseline;
       margin-top: 1lh;
     }
@@ -139,8 +139,10 @@ const currentYear = new Date().getFullYear();
     font-size: var(--font-size-body-sm);
     color: var(--color-foreground-dimmed);
     grid-column: 1 / -1;
-    justify-self: end;
-    text-align: right;
+
+    @media (width >= 990px) {
+      grid-column: 6 / -1;
+    }
   }
 
   .link {

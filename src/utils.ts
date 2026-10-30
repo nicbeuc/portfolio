@@ -27,5 +27,5 @@ export function supportsAnimationTrigger(): boolean {
  * @returns True if the browser supports the attribute function, false otherwise.
  */
 export function supportsAttributeFunction(): boolean {
-  return CSS.supports('width: attr(data-width type(<number>))');
+  return CSS.supports('(opacity: attr(data-opacity type(<number>))) and at-rule(@property)');
 }

@@ -4,23 +4,52 @@ import Video from '@/components/Video.astro';
 
 <section>
   <div class="wrapper">
-    <Video playbackId="A3VXy02VoUinw01pwyomEO3bHnG4P32xzV7u1j1FSzjNg"/>
+    <Video video="reel" preload />
   </div>
 </section>
 
 <style>
   section {
-    /* min-height: var(--page-height-basis); */
+    --reel-spacing: var(--spacing-06);
     position: relative;
     z-index: 2;
-    margin-top: calc((var(--page-height-basis) / 2) + var(--spacing-04));
+    margin-top: calc((var(--page-height-basis) / 2) + var(--reel-spacing));
 
-    @supports (animation-timeline: view()) {
-      view-timeline: --scroll-scope;
+    @media (width < 990px) {
+      --reel-spacing: var(--spacing-04);
     }
   }
 
   .wrapper {
+    --video-player-border-radius: 0;
+    --video-player-aspect-ratio: 16 / 9;
     grid-column: 1 / -1;
+    overflow: hidden;
+    border-radius: var(--border-radius-global);
+
+    @media (width < 990px) {
+      --video-player-aspect-ratio: 1;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+        will-change: margin-inline, border-radius;
+        animation: wrapperExpand linear forwards;
+        animation-timeline: scroll(y root);
+        animation-range-start: 1px;
+        animation-range-end: calc(var(--page-height-basis) / 2);
+      }
+    }
+  }
+
+  @keyframes wrapperExpand {
+    from {
+      margin-inline: 0;
+      border-radius: var(--border-radius-global);
+    }
+    to {
+      margin-inline: calc(var(--page-margin-x) * -1);
+      border-radius: 0;
+    }
   }
 </style>

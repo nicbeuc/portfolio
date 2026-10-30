@@ -123,7 +123,10 @@ h6 {
   /* Header */
   --header-collapse-distance: 5.5rem;
 
-  @media (width < 989px) {
+  /* Border Radii */
+  --border-radius-global: clamp(4px, 1vw, 8px);
+
+  @media (width < 990px) {
     --page-margin-x: 1rem;
     --page-height-basis: max(50rem, 100svh);
     --header-collapse-distance: 12.5rem;
@@ -160,7 +163,7 @@ body > * {
 main {
   position: relative;
   z-index: 1;
-  margin-bottom: var(--page-height-basis);
+  /* margin-bottom: var(--page-height-basis); */
 
   /* @supports (animation-timeline: view()) {
     timeline-scope: --scroll-scope;
@@ -200,6 +203,7 @@ h6 {
   line-height: 1.15;
   font-size: var(--font-size-heading);
   font-weight: 400;
+  text-wrap: balance;
 }
 
 /* Links */
