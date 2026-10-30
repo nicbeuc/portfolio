@@ -16,6 +16,7 @@ import AnimatedLogo from './AnimatedLogo.astro';
 
 <style>
   header {
+    --color-foreground: #fff;
     padding-block: var(--page-margin-y);
     position: fixed;
     left: 0;
@@ -53,7 +54,7 @@ import AnimatedLogo from './AnimatedLogo.astro';
   [data-header-threshold] {
     position: absolute;
     pointer-events: none;
-    top: 4rem;
+    top: var(--header-collapse-distance, 4rem);
     white-space: nowrap;
     overflow: hidden;
     clip: rect(0 0 0 0);

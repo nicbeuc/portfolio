@@ -1,13 +1,26 @@
-<section>
+---
+import Video from '@/components/Video.astro';
+---
 
+<section>
+  <div class="wrapper">
+    <Video playbackId="A3VXy02VoUinw01pwyomEO3bHnG4P32xzV7u1j1FSzjNg"/>
+  </div>
 </section>
 
 <style>
   section {
-    min-height: var(--page-height-basis);
+    /* min-height: var(--page-height-basis); */
+    position: relative;
+    z-index: 2;
+    margin-top: calc((var(--page-height-basis) / 2) + var(--spacing-04));
 
     @supports (animation-timeline: view()) {
       view-timeline: --scroll-scope;
     }
+  }
+
+  .wrapper {
+    grid-column: 1 / -1;
   }
 </style>

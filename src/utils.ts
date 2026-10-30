@@ -11,7 +11,7 @@ export function prefersReducedMotion(): boolean {
  * @returns True if the browser supports the animation-timeline property, false otherwise.
  */
 export function supportsAnimationTimeline(): boolean {
-  return CSS.supports('animation-timeline', 'view()');
+  return CSS.supports('animation-timeline: view()');
 }
 
 /**
@@ -19,5 +19,13 @@ export function supportsAnimationTimeline(): boolean {
  * @returns True if the browser supports the animation-trigger property, false otherwise.
  */
 export function supportsAnimationTrigger(): boolean {
-  return CSS.supports('timeline-trigger-name', '--t');
+  return CSS.supports('timeline-trigger-name: --t');
+}
+
+/**
+ * Checks if the browser supports the attribute function.
+ * @returns True if the browser supports the attribute function, false otherwise.
+ */
+export function supportsAttributeFunction(): boolean {
+  return CSS.supports('width: attr(data-width type(<number>))');
 }

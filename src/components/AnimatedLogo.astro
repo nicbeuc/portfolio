@@ -73,6 +73,7 @@
   }
 
   animated-logo[data-animate] span:not(:first-child, :nth-child(5)) {
+    will-change: opacity, filter;
     animation-duration: var(--animated-logo-letter-fade-duration);
   }
 
@@ -144,18 +145,22 @@
   @keyframes letterFadeOut {
     from {
       opacity: 1;
+      filter: blur(0);
     }
     to {
-      opacity: 0;
+      opacity: 0.001;
+      filter: blur(4px);
     }
   }
 
   @keyframes letterFadeIn {
     from {
-      opacity: 0;
+      opacity: 0.001;
+      filter: blur(4px);
     }
     to {
       opacity: 1;
+      filter: blur(0);
     }
   }
 

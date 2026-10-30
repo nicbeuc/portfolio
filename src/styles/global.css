@@ -80,6 +80,7 @@ h6 {
   --page-margin-x: 2rem;
   --page-margin-y: 1rem;
   --page-height-basis: max(40rem, 100vh);
+  --page-height-basis: max(40rem, 100svh);
 
   /* Grid */
   --grid-global-columns: 12;
@@ -119,8 +120,13 @@ h6 {
   --font-size-body: 0.875rem;
   --font-size-body-sm: 0.75rem;
 
+  /* Header */
+  --header-collapse-distance: 5.5rem;
+
   @media (width < 989px) {
     --page-margin-x: 1rem;
+    --page-height-basis: max(50rem, 100svh);
+    --header-collapse-distance: 12.5rem;
     --grid-global-columns: 4;
     --grid-global-gutter: 0.5rem;
   }
@@ -156,9 +162,9 @@ main {
   z-index: 1;
   margin-bottom: var(--page-height-basis);
 
-  @supports (animation-timeline: view()) {
+  /* @supports (animation-timeline: view()) {
     timeline-scope: --scroll-scope;
-  }
+  } */
 }
 
 main > * {
@@ -199,14 +205,15 @@ h6 {
 /* Links */
 
 .link {
-  --__link-color: var(--link-color, var(--color-foreground, inherit));
-  color: color-mix(in hsl, var(--__link-color) 60%, transparent);
+  --__link-color: var(--link-color, color-mix(in hsl, var(--color-foreground) 60%, transparent));
+  --__link-color-hover: var(--link-color-hover, var(--color-foreground, inherit));
+  color: var(--__link-color);
   transition: var(--transition-color);
 }
 
 @media (hover: hover) {
   .link:hover {
-    color: var(--__link-color);
+    color: var(--__link-color-hover);
   }
 }
 

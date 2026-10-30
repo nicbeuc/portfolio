@@ -12,9 +12,3 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 <a href={href} class:list={['link', className]} {...props} aria-current={isActive ? 'page' : null}>
   <slot />
 </a>
-
-<style>
-  .link {
-    --link-color: #fff;
-  }
-</style>

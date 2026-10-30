@@ -21,8 +21,8 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
 <style>
   section {
     /* padding-top: max(15rem, 40vh); */
-    min-height: var(--page-height-basis);
-    align-items: center;
+    min-height: calc(var(--page-height-basis) / 2);
+    align-items: end;
     grid-template-columns: repeat(var(--grid-global-columns), 1fr);
     column-gap: var(--grid-global-gutter);
     position: fixed;
@@ -40,6 +40,7 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
     display: grid;
     align-items: end;
     row-gap: var(--spacing-04);
+    /* padding-bottom: 10%; */
     will-change: opacity, filter, transform;
     grid-template-columns: subgrid;
     grid-template-areas:
@@ -58,9 +59,10 @@ import LogoShuffle from '@/components/LogoShuffle.astro';
 
     @supports (animation-timeline: view()) {
       animation: scrollFadeOut linear forwards;
-      animation-timeline: --scroll-scope;
-      animation-range-start: cover 50%;
-      animation-range-end: cover 80%;
+      /* animation-timeline: --scroll-scope; */
+      animation-timeline: scroll(y root);
+      animation-range-start: 1px;
+      animation-range-end: var(--header-collapse-distance);
 
       @media (prefers-reduced-motion: reduce) {
         animation: scrollFadeOutReducedMotion linear forwards;
@@ -129,8 +131,6 @@ class ScrollFade extends HTMLElement {
 
   connectedCallback() {
     if (supportsAnimationTimeline()) return;
-
-    console.log('supportsAnimationTimeline', supportsAnimationTimeline());
 
     this.#wrapper = this.querySelector('.wrapper');
     this.#subject = document.querySelector('[data-scroll-scope]');

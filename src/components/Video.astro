@@ -1,0 +1,148 @@
+---
+import IconPlay from '@/assets/icon-play.svg';
+import IconPause from '@/assets/icon-pause.svg';
+import { MUX_DEMO_PLAYBACK_ID } from '@/consts';
+
+const { playbackId = MUX_DEMO_PLAYBACK_ID, ...props } = Astro.props;
+---
+
+<div class="video">
+  <video-element
+    defaultstreamtype="on-demand"
+    nohotkeys
+    breakpoints="sm:400 md:768 lg:1099 xl:1280"
+    autohide="-1"
+    autohideovercontrols="false"
+    gesturesdisabled
+  >
+    <mux-video
+      playback-id={playbackId}
+      slot="media"
+      stream-type="on-demand"
+      autoplay="muted"
+      muted
+      loop
+      playsinline
+    >
+    </mux-video>
+    <media-control-bar>
+      <media-play-button notooltip>
+        <IconPause slot="pause" aria-hidden="true" />
+        <IconPlay slot="play" aria-hidden="true" />
+      </media-play-button>
+    </media-control-bar>
+    <svg viewBox="0 0 20 20" width="1rem" height="1rem" fill="none" aria-hidden="true" class="progress-circle">
+      <circle cx="10" cy="10" r="10" pathLength="1" stroke="white"/>
+    </svg>
+  </video-element>
+</div>
+
+
+<style>
+  .video {
+    --video-element-button-size: 1.5rem;
+    --video-element-border-radius: 8px;
+    --media-control-background: hsl(0 0 0% / .1);
+    --media-control-hover-background: hsl(0 0 0% / .25);
+    --media-button-icon-width: calc(var(--video-element-button-size) * .5);
+    --media-button-icon-height: calc(var(--video-element-button-size) * .5);
+    --media-button-padding: 0;
+    --media-object-fit: cover;
+    --media-focus-box-shadow: 0 0 0 2px rgb(27 127 204 / .9);
+    border-radius: var(--video-element-border-radius);
+    overflow: hidden;
+
+    @media (width < 989px) {
+      --video-element-button-size: 1.25rem;
+    }
+  }
+
+  video-element {
+    position: relative;
+    isolation: isolate;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    @supports (width: attr(data-width)) {
+      --video-element-progress: calc(
+        1 - (attr(mediacurrenttime type(<number>), 0) / attr(mediaduration type(<number>), 1))
+      )
+    }
+  }
+
+  video-element::part(bottom) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    align-self: end;
+  }
+
+  video-element::part(layer) {
+    /* mix-blend-mode: exclusion; */
+  }
+
+  media-control-bar {
+    opacity: 1 !important;
+    position: relative;
+    z-index: 1;
+  }
+
+  media-play-button {
+    border-radius: 100%;
+    height: var(--video-element-button-size);
+    width: var(--video-element-button-size);
+    margin: .5rem;
+    /* box-shadow: 0 0 0 1px var(--media-control-background); */
+  }
+
+  media-play-button:hover {
+    /* box-shadow: 0 0 0 1px var(--media-control-hover-background); */
+  }
+
+  .progress-circle {
+    opacity: 1 !important;
+    overflow: visible;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(var(--video-element-button-size) - 1px);
+    height: calc(var(--video-element-button-size) - 1px);
+    stroke: white;
+    stroke-width: .75px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .progress-circle circle {
+    transform: rotate(-90deg);
+    transform-origin: center;
+    stroke-dasharray: var(--video-element-progress, 1) 1;
+  }
+</style>
+
+<script>
+  import '@mux/mux-video';
+  import { MediaController } from 'media-chrome';
+  import { supportsAttributeFunction } from '@/utils';
+
+  class VideoElement extends MediaController {
+    constructor() {
+      super();
+    }
+
+    attributeChangedCallback(name: string, oldValue: string, newValue: string) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+      if (supportsAttributeFunction()) return;
+      if (name !== 'mediacurrenttime' && name !== 'mediaduration') return;
+      const current = Number(this.getAttribute('mediacurrenttime'));
+      const duration = Number(this.getAttribute('mediaduration'));
+      const progress = duration > 0 && Number.isFinite(current) ? current / duration : 0;
+      this.style.setProperty('--video-element-progress', String(1 - progress));
+    }
+  }
+
+  customElements.define('video-element', VideoElement);
+</script>
