@@ -1,0 +1,62 @@
+---
+import { PROJECTS } from '@/consts';
+import ProjectMedia from '@/components/ProjectMedia.astro';
+import ProjectDetails from '@/components/ProjectDetails.astro';
+---
+
+<section>
+  <div class="text">
+    <h2>Featured Projects</h2>
+    {PROJECTS.map((project) => (
+      <ProjectDetails
+        title={project.title}
+        description={project.description}
+        agency={project.agency}
+        roles={project.roles}
+      />
+    ))}
+  </div>
+  <div class="media">
+    {PROJECTS.map((project) => (
+      <ProjectMedia
+        title={project.title}
+        media={project.media}
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+  section {
+    align-items: start;
+    position: relative;
+    grid-template-areas:
+      "a a a a . b b b b b b b";
+
+    @media (width < 990px) {
+      grid-template-areas:
+        "a a a a"
+        "b b b b";
+    }
+  }
+
+  h2 {
+    color: var(--color-foreground-dimmed);
+    font-size: var(--font-size-heading-sm);
+    position: sticky;
+    top: calc(var(--page-height-basis) * 0.4);
+    margin-top: calc(var(--page-height-basis) * 0.4);
+  }
+
+  .text {
+    grid-area: a;
+    position: sticky;
+    top: 0;
+    height: var(--page-height-basis);
+    overflow: hidden;
+  }
+
+  .media {
+    grid-area: b;
+  }
+</style>

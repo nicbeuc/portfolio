@@ -152,6 +152,8 @@ body {
   grid-template-columns: repeat(var(--grid-global-columns), 1fr);
   column-gap: var(--grid-global-gutter);
   padding-inline: var(--page-margin-x);
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body > * {
@@ -163,6 +165,7 @@ body > * {
 main {
   position: relative;
   z-index: 1;
+  max-width: 100%;
   /* margin-bottom: var(--page-height-basis); */
 
   /* @supports (animation-timeline: view()) {
@@ -185,6 +188,10 @@ ul,ol {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+section {
+  max-width: 100%;
 }
 
 /* Typography */

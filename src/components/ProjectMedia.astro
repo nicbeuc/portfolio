@@ -1,0 +1,58 @@
+---
+import { getProjectImage, type ProjectMedia } from '@/consts';
+import { Image } from 'astro:assets'
+import Video from '@/components/Video.astro';
+
+interface Props {
+  title: string;
+  media: ProjectMedia[];
+}
+
+const { title, media } = Astro.props;
+---
+
+<div class="wrapper">
+  {media.map((item) => (
+    <div class="media-item" data-orientation={item.orientation}>
+      {item.type === 'image' ? (
+        <Image src={getProjectImage(item.name)} alt={title} />
+      ) : (
+        <Video video={item.name} />
+      )}
+    </div>
+  ))}
+</div>
+
+<style>
+  .wrapper {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-01);
+    margin-top: calc(var(--page-height-basis) * 0.4);
+  }
+
+  .media-item {
+    --video-player-aspect-ratio: 16 / 9;
+    grid-column: 1 / -1;
+    width: 100%;
+    overflow: hidden;
+
+    &[data-orientation="portrait"] {
+      --video-player-aspect-ratio: 118 / 135;
+      grid-column: span 1;
+    }
+  }
+
+  .media-item img,
+  .media-item :global(.video) {
+    width: 100%;
+  }
+
+  .media-item img {
+    aspect-ratio: var(--video-player-aspect-ratio);
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--border-radius-global);
+  }
+</style>

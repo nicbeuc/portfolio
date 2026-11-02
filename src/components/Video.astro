@@ -1,7 +1,7 @@
 ---
 import IconPlay from '@/assets/icon-play.svg';
 import IconPause from '@/assets/icon-pause.svg';
-import { videos, type VideoName } from '@/consts';
+import { VIDEOS, type VideoName } from '@/consts';
 
 interface Props {
   video: VideoName;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { video, preload = false, ...props } = Astro.props;
-const { playbackId, thumbnailUrl } = videos[video];
+const { playbackId, thumbnailUrl } = VIDEOS[video];
 ---
 
 <div class="video">

@@ -1,0 +1,42 @@
+---
+import type { ProjectRole } from '@/consts';
+
+interface Props {
+  title: string;
+  description: string;
+  agency: string;
+  roles: ProjectRole[];
+}
+
+const { title, description, agency, roles } = Astro.props;
+---
+
+<div class="wrapper">
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <dl>
+    <dt>Designed at</dt>
+    <dd>{agency}</dd>
+    <dt>My roles</dt>
+    <dd>
+      {roles.map((role, index) => (
+        index !== roles.length - 1 ? `${role}, ` : role
+      ))}
+    </dd>
+  </dl>
+</div>
+
+<style>
+  .wrapper {
+    min-height: var(--page-height-basis);
+  }
+
+  /* .wrapper:not(:first-child) {
+    padding-top: calc(var(--page-height-basis) * 0.4);
+  } */
+
+  h3 {
+    font-size: var(--font-size-heading-sm);
+    margin-bottom: var(--spacing-02);
+  }
+</style>
