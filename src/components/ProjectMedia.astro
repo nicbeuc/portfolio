@@ -31,20 +31,54 @@ const { title, media } = Astro.props;
     gap: var(--spacing-01);
     margin-top: calc(var(--page-height-basis) * 0.4);
     timeline-trigger-source: view();
-    timeline-trigger-activation-range-start: entry 50%;
-    timeline-trigger-activation-range-end: exit 50%;
+    timeline-trigger-activation-range-start: entry 40%;
+    timeline-trigger-activation-range-end: exit 60%;
+    background-color: var(--color-background);
+
+    @media (width < 990px) {
+      margin-top: 0;
+      timeline-trigger-activation-range-start: entry -25%;
+      timeline-trigger-activation-range-end: exit -25%;
+    }
+  }
+
+  .wrapper:not(:first-of-type) {
+    @media (width < 990px) {
+      margin-top: var(--page-height-basis);
+    }
   }
 
   .wrapper:first-of-type {
-    timeline-trigger-name: --project1;
+    timeline-trigger-name: --projectTrigger1;
+
+    @media (width < 990px) {
+      @supports not (timeline-trigger-name: --t) {
+        timeline-trigger-name: unset;
+        view-timeline-name: --projectView1;
+      }
+    }
   }
 
   .wrapper:nth-of-type(2) {
-    timeline-trigger-name: --project2;
+    timeline-trigger-name: --projectTrigger2;
+
+    @media (width < 990px) {
+      @supports not (timeline-trigger-name: --t) {
+        timeline-trigger-name: unset;
+        view-timeline-name: --projectView2;
+      }
+    }
   }
 
   .wrapper:nth-of-type(3) {
-    timeline-trigger-name: --project3;
+    timeline-trigger-name: --projectTrigger3;
+
+    @media (width < 990px) {
+      @supports not (timeline-trigger-name: --t) {
+        timeline-trigger-name: unset;
+        view-timeline-name: --projectView3;
+      }
+    }
   }
 
   .media-item {

@@ -28,6 +28,10 @@ const { title, description, agency, roles } = Astro.props;
 
 <style>
   .wrapper {
+    --details-animation-base-delay: 250ms;
+    --details-animation-delay-step: 50ms;
+    --details-animation-blur-strength: 4px;
+    --details-animation-translate-distance: 10px;
     font-size: var(--font-size-heading-sm);
     min-height: var(--page-height-basis);
     position: relative;
@@ -40,22 +44,46 @@ const { title, description, agency, roles } = Astro.props;
       "a a a a"
       "b b b b"
       "c c c c";
-    padding-top: calc((var(--page-height-basis) * 0.4) + 1lh);
+    padding-top: calc(var(--projects-top-offset) + 1lh);
     padding-bottom: var(--page-margin-y);
-    opacity: 0.001;
-    animation: projectFadeIn var(--duration-slow) ease both var(--duration-slow);
+
+    @media (width < 990px) {
+      --details-animation-base-delay: 0ms;
+      grid-template-rows: auto auto auto;
+      align-content: start;
+      align-items: start;
+
+      /* Polyfill for mobile browsers that don't support timeline-trigger-name. */
+      @supports not (timeline-trigger-name: --t) {
+        border: 1px solid red !important;
+        will-change: filter, opacity;
+        opacity: 0.001;
+        filter: blur(var(--details-animation-blur-strength));
+        background-color: var(--color-background);
+        /* Mobile browsers don't currently support setting two separate animations for the same timeline. */
+        /* animation: detailsFadeIn linear backwards, detailsFadeOut linear forwards;
+        animation-timeline: var(--details-animation-timeline), var(--details-animation-timeline);
+        animation-range: cover -50% cover 0%, contain 0% contain 100%; */
+        animation: detailsFadeIn linear both;
+        animation-timeline: var(--details-animation-timeline);
+        animation-range: entry -20% entry 0%;
+      }
+    }
   }
 
   .wrapper:first-of-type {
-    animation-trigger: --project1 play-forwards play-backwards;
+    --details-animation-timeline: --projectView1;
+    --details-animation-trigger: --projectTrigger1 play-forwards play-backwards;
   }
 
   .wrapper:nth-of-type(2) {
-    animation-trigger: --project2 play-forwards play-backwards;
+    --details-animation-timeline: --projectView2;
+    --details-animation-trigger: --projectTrigger2 play-forwards play-backwards;
   }
 
   .wrapper:nth-of-type(3) {
-    animation-trigger: --project3 play-forwards play-backwards;
+    --details-animation-timeline: --projectView3;
+    --details-animation-trigger: --projectTrigger3 play-forwards play-backwards;
   }
 
   /* .wrapper:not(:first-of-type) {
@@ -71,16 +99,27 @@ const { title, description, agency, roles } = Astro.props;
   p {
     grid-area: b;
     font-size: var(--font-size-body);
+    margin-bottom: var(--spacing-04);
+    color: var(--color-foreground-dimmed);
+
+    @media (width < 768px) {
+      font-size: var(--font-size-body-sm);
+    }
   }
 
   dl {
+    --dl-index: 2;
     grid-area: c;
     font-size: var(--font-size-body);
     display: grid;
     grid-template-columns: subgrid;
     grid-template-areas:
       "d d f f"
-      "e e g g"
+      "e e g g";
+
+    @media (width < 768px) {
+      font-size: var(--font-size-body-sm);
+    }
   }
 
   dt {
@@ -103,12 +142,63 @@ const { title, description, agency, roles } = Astro.props;
     grid-area: g;
   }
 
-  @keyframes projectFadeIn {
+  h3, p, dt, dd {
+    will-change: opacity, filter, transform;
+    opacity: 0.001;
+    filter: blur(var(--details-animation-blur-strength));
+    transform: translate3d(0px, var(--details-animation-translate-distance), 0px);
+    animation-name: detailsFadeInUp;
+    animation-duration: var(--duration-medium);
+    animation-timing-function: var(--ease-in-out-cubic);
+    animation-delay: calc(var(--details-animation-base-delay) + (var(--details-animation-delay-step) * ((var(--dl-index, 0) + sibling-index()) - 1)));
+    animation-fill-mode: both;
+    animation-trigger: var(--details-animation-trigger);
+
+    @media (width < 990px) {
+      /* Polyfill for mobile browsers that don't support timeline-trigger-name. */
+      @supports not (timeline-trigger-name: --t) {
+        will-change: initial;
+        opacity: initial;
+        filter: initial;
+        transform: initial;
+        animation-trigger: unset;
+        animation: none;
+      }
+    }
+  }
+
+  @keyframes detailsFadeIn {
     from {
       opacity: 0.001;
+      filter: blur(var(--details-animation-blur-strength));
     }
     to {
       opacity: 1;
+      filter: blur(0px);
+    }
+  }
+
+  @keyframes detailsFadeOut {
+    from {
+      opacity: 1;
+      filter: blur(0px);
+    }
+    to {
+      opacity: 0.001;
+      filter: blur(var(--details-animation-blur-strength));
+    }
+  }
+
+  @keyframes detailsFadeInUp {
+    from {
+      transform: translate3d(0px, var(--details-animation-translate-distance), 0px);
+      opacity: 0.001;
+      filter: blur(var(--details-animation-blur-strength));
+    }
+    to {
+      transform: translate3d(0px, 0px, 0px);
+      opacity: 1;
+      filter: blur(0px);
     }
   }
 </style>

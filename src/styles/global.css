@@ -110,6 +110,7 @@ h6 {
   /* Easing */
   --ease-out-quart: cubic-bezier(0.17, 0.84, 0.44, 1);
   --ease-in-out-quart: cubic-bezier(0.770, 0.000, 0.175, 1.000);
+  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1.000);
 
   /* Transitions */
   --transition-color: color var(--duration-fast) var(--ease-out-quart);
@@ -128,7 +129,7 @@ h6 {
 
   @media (width < 990px) {
     --page-margin-x: 1rem;
-    --page-height-basis: max(50rem, 100svh);
+    --page-height-basis: max(40rem, 100svh);
     --header-collapse-distance: 12.5rem;
     --grid-global-columns: 4;
     --grid-global-gutter: 0.5rem;

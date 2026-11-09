@@ -1,39 +1,33 @@
 ---
 import { PROJECTS } from '@/consts';
-import ProjectMedia from '@/components/ProjectMedia.astro';
-import ProjectDetails from '@/components/ProjectDetails.astro';
+import Project from '@/components/Project.astro';
 ---
 
 <section>
-  <div class="text">
-    <h2>Featured Projects</h2>
-    {PROJECTS.map((project) => (
-      <ProjectDetails
-        title={project.title}
-        description={project.description}
-        agency={project.agency}
-        roles={project.roles}
-      />
-    ))}
-  </div>
-  <div class="media">
-    {PROJECTS.map((project) => (
-      <ProjectMedia
-        title={project.title}
-        media={project.media}
-      />
-    ))}
-  </div>
+  <h2>Featured Projects</h2>
+  {PROJECTS.map((project) => (
+    <Project
+      title={project.title}
+      description={project.description}
+      agency={project.agency}
+      roles={project.roles}
+      media={project.media}
+    />
+  ))}
 </section>
 
 <style>
   section {
+    --projects-top-offset: calc(var(--page-height-basis) * 0.4);
+    timeline-scope: --projectView1, --projectView2, --projectView3;
     align-items: start;
     position: relative;
+    isolation: isolate;
     grid-template-areas:
       "a a a a . b b b b b b b";
 
     @media (width < 990px) {
+      --projects-top-offset: calc(var(--page-height-basis) * 0.35);
       grid-template-areas:
         "a a a a"
         "b b b b";
@@ -43,11 +37,12 @@ import ProjectDetails from '@/components/ProjectDetails.astro';
   h2 {
     color: var(--color-foreground-dimmed);
     font-size: var(--font-size-heading-sm);
-    top: calc(var(--page-height-basis) * 0.4);
+    top: var(--projects-top-offset);
     position: sticky;
-    margin-top: calc(var(--page-height-basis) * 0.4);
+    margin-top: var(--projects-top-offset);
     grid-column: 1 / -1;
     grid-row-start: 1;
+    z-index: 1;
   }
 
   .text {
@@ -58,9 +53,11 @@ import ProjectDetails from '@/components/ProjectDetails.astro';
     overflow: hidden;
     display: grid;
     grid-template-columns: subgrid;
+    z-index: 0;
   }
 
   .media {
     grid-area: b;
+    z-index: 1;
   }
 </style>

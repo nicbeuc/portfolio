@@ -25,7 +25,6 @@ const { playbackId, thumbnailUrl } = VIDEOS[video];
       playback-id={playbackId}
       slot="media"
       stream-type="on-demand"
-      autoplay="muted"
       muted
       loop
       playsinline
@@ -92,6 +91,7 @@ const { playbackId, thumbnailUrl } = VIDEOS[video];
     inset: 0;
     height: 100%;
     width: 100%;
+    border-radius: inherit;
 
     @supports (opacity: attr(data-opacity type(<number>))) and at-rule(@property) {
       --video-player-progress: calc(

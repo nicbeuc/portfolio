@@ -1,0 +1,319 @@
+---
+import { getProjectImage, type ProjectMedia, type ProjectRole } from '@/consts';
+import { Image } from 'astro:assets'
+import Video from '@/components/Video.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  agency: string;
+  roles: ProjectRole[];
+  media: ProjectMedia[];
+}
+
+const { title, description, agency, roles, media } = Astro.props;
+---
+
+<div class="project">
+  <div class="details">
+    <h3>{title}</h3>
+    <p>{description}</p>
+    <dl>
+      <dt>Designed at</dt>
+      <dd>{agency}</dd>
+      <dt>My roles</dt>
+      <dd>
+        {roles.map((role, index) => (
+          index !== roles.length - 1 ? `${role}, ` : role
+        ))}
+      </dd>
+    </dl>
+  </div>
+  <div class="media">
+    {media.map((item) => (
+      <div class="media-item" data-orientation={item.orientation}>
+        {item.type === 'image' ? (
+          <Image src={getProjectImage(item.name)} alt={title} />
+        ) : (
+          <Video video={item.name} />
+        )}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .project {
+    display: grid;
+    grid-column: 1 / -1;
+    align-items: start;
+    grid-template-columns: subgrid;
+    grid-template-areas:
+      "a a a a a b b b b b b b";
+    timeline-trigger-source: view();
+    timeline-trigger-activation-range-start: entry 60%;
+    timeline-trigger-activation-range-end: exit -40%;
+  }
+
+  .project:not(:first-of-type) {
+    @media (width < 990px) {
+      margin-top: var(--page-height-basis);
+    }
+  }
+
+  .project:first-of-type {
+    timeline-trigger-name: --projectTrigger1;
+
+    @media (width < 990px) {
+      @supports not (timeline-trigger-name: --t) {
+        timeline-trigger-name: unset;
+        view-timeline-name: --projectView1;
+      }
+    }
+  }
+
+  .project:nth-of-type(2) {
+    timeline-trigger-name: --projectTrigger2;
+
+    @media (width < 990px) {
+      @supports not (timeline-trigger-name: --t) {
+        timeline-trigger-name: unset;
+        view-timeline-name: --projectView2;
+      }
+    }
+  }
+
+  .project:nth-of-type(3) {
+    timeline-trigger-name: --projectTrigger3;
+
+    @media (width < 990px) {
+      @supports not (timeline-trigger-name: --t) {
+        timeline-trigger-name: unset;
+        view-timeline-name: --projectView3;
+      }
+    }
+  }
+
+  .project:first-of-type {
+    --details-animation-timeline: --projectView1;
+    --details-animation-trigger: --projectTrigger1 play-forwards play-backwards;
+  }
+
+  .project:nth-of-type(2) {
+    --details-animation-timeline: --projectView2;
+    --details-animation-trigger: --projectTrigger2 play-forwards play-backwards;
+  }
+
+  .project:nth-of-type(3) {
+    --details-animation-timeline: --projectView3;
+    --details-animation-trigger: --projectTrigger3 play-forwards play-backwards;
+  }
+
+  .details {
+    --details-animation-base-delay: 0ms;
+    --details-animation-delay-step: 50ms;
+    --details-animation-blur-strength: 4px;
+    --details-animation-translate-distance: 10px;
+    grid-area: a;
+    font-size: var(--font-size-heading-sm);
+    height: var(--page-height-basis);
+    position: relative;
+    display: grid;
+    align-items: start;
+    grid-template-columns: subgrid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "c c c c"
+      "d d d d"
+      "e e e e";
+    position: sticky;
+    top: 0;
+    padding-top: calc(var(--projects-top-offset) + 1lh);
+    padding-bottom: var(--page-margin-y);
+    /* Help to ensure no shifting occurs when details are scrolled in/out of view. */
+    margin-top: calc(var(--page-height-basis) * -3);
+    margin-bottom: calc(var(--page-height-basis) * -3);
+
+    @media (width < 990px) {
+      --details-animation-base-delay: 0ms;
+      grid-template-rows: auto auto auto;
+      align-content: start;
+      align-items: start;
+
+      /* Polyfill for mobile browsers that don't support timeline-trigger-name. */
+      @supports not (timeline-trigger-name: --t) {
+        border: 1px solid red !important;
+        will-change: filter, opacity;
+        opacity: 0.001;
+        filter: blur(var(--details-animation-blur-strength));
+        background-color: var(--color-background);
+        /* Mobile browsers don't currently support setting two separate animations for the same timeline. */
+        /* animation: detailsFadeIn linear backwards, detailsFadeOut linear forwards;
+        animation-timeline: var(--details-animation-timeline), var(--details-animation-timeline);
+        animation-range: cover -50% cover 0%, contain 0% contain 100%; */
+        animation: detailsFadeIn linear both;
+        animation-timeline: var(--details-animation-timeline);
+        animation-range: entry -20% entry 0%;
+      }
+    }
+  }
+
+  .project:first-of-type .details {
+    margin-top: calc((var(--projects-top-offset) + 1lh) * -1);
+  }
+
+  /* .wrapper:not(:first-of-type) {
+    opacity: 0.001;
+  } */
+
+  h3 {
+    grid-area: c;
+    font-size: var(--font-size-heading-sm);
+    margin-bottom: var(--spacing-02);
+  }
+
+  p {
+    grid-area: d;
+    font-size: var(--font-size-body);
+    margin-bottom: var(--spacing-04);
+    color: var(--color-foreground-dimmed);
+
+    @media (width < 768px) {
+      font-size: var(--font-size-body-sm);
+    }
+  }
+
+  dl {
+    --dl-index: 2;
+    grid-area: e;
+    font-size: var(--font-size-body);
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-areas:
+      "f f h h"
+      "g g i i";
+
+    @media (width < 768px) {
+      font-size: var(--font-size-body-sm);
+    }
+  }
+
+  dt {
+    color: var(--color-foreground-dimmed);
+  }
+
+  dt:first-of-type {
+    grid-area: f;
+  }
+
+  dd:first-of-type {
+    grid-area: g;
+  }
+
+  dt:last-of-type {
+    grid-area: h;
+  }
+
+  dd:last-of-type {
+    grid-area: i;
+  }
+
+  h3, p, dt, dd {
+    will-change: opacity, filter, transform;
+    opacity: 0.001;
+    filter: blur(var(--details-animation-blur-strength));
+    transform: translate3d(0px, var(--details-animation-translate-distance), 0px);
+    animation-name: detailsFadeInUp;
+    animation-duration: var(--duration-medium);
+    animation-timing-function: var(--ease-in-out-cubic);
+    animation-delay: calc(var(--details-animation-base-delay) + (var(--details-animation-delay-step) * ((var(--dl-index, 0) + sibling-index()) - 1)));
+    animation-fill-mode: both;
+    animation-trigger: var(--details-animation-trigger);
+
+    @media (width < 990px) {
+      /* Polyfill for mobile browsers that don't support timeline-trigger-name. */
+      @supports not (timeline-trigger-name: --t) {
+        will-change: initial;
+        opacity: initial;
+        filter: initial;
+        transform: initial;
+        animation-trigger: unset;
+        animation: none;
+      }
+    }
+  }
+
+  @keyframes detailsFadeIn {
+    from {
+      opacity: 0.001;
+      filter: blur(var(--details-animation-blur-strength));
+    }
+    to {
+      opacity: 1;
+      filter: blur(0px);
+    }
+  }
+
+  @keyframes detailsFadeOut {
+    from {
+      opacity: 1;
+      filter: blur(0px);
+    }
+    to {
+      opacity: 0.001;
+      filter: blur(var(--details-animation-blur-strength));
+    }
+  }
+
+  @keyframes detailsFadeInUp {
+    from {
+      transform: translate3d(0px, var(--details-animation-translate-distance), 0px);
+      opacity: 0.001;
+      filter: blur(var(--details-animation-blur-strength));
+    }
+    to {
+      transform: translate3d(0px, 0px, 0px);
+      opacity: 1;
+      filter: blur(0px);
+    }
+  }
+
+  .media {
+    grid-area: b;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-01);
+    background-color: var(--color-background);
+    padding-bottom: var(--projects-top-offset);
+
+    @media (width < 990px) {
+      margin-top: 0;
+      timeline-trigger-activation-range-start: entry -25%;
+      timeline-trigger-activation-range-end: exit -25%;
+    }
+  }
+
+  .media-item {
+    --video-player-aspect-ratio: 16 / 9;
+    grid-column: 1 / -1;
+    width: 100%;
+    overflow: hidden;
+
+    &[data-orientation="portrait"] {
+      --video-player-aspect-ratio: 118 / 135;
+      grid-column: span 1;
+    }
+  }
+
+  .media-item img,
+  .media-item :global(.video) {
+    width: 100%;
+  }
+
+  .media-item img {
+    aspect-ratio: var(--video-player-aspect-ratio);
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--border-radius-global);
+  }
+</style>
