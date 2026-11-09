@@ -119,13 +119,100 @@ export const PROJECTS: Project[] = [
     description: 'Fugiat ullamco commodo cillum nostrud velit amet minim qui nostrud qui laborum dolore eiusmod. Voluptate ex est labore id culpa amet voluptate consequat amet labore do sunt. Laborum nisi officia est nostrud dolor nisi ad labore mollit. Irure consequat esse esse.',
     agency: 'Make Me Modern',
     roles: ['Strategy', 'Design', 'Development'],
-    media: [],
+    media: [
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'landscape',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'portrait',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'portrait',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'landscape',
+      },
+      {
+        type: 'image',
+        name: 'xul-beer-mobile',
+        orientation: 'portrait',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'portrait',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'landscape',
+      },
+      {
+        type: 'image',
+        name: 'xul-password',
+        orientation: 'portrait',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'portrait',
+      },
+      {
+        type: 'image',
+        name: 'xul-finder',
+        orientation: 'landscape',
+      },
+    ],
   },
   {
     title: 'Wide Eyes Paper Co.',
     description: 'Fugiat ullamco commodo cillum nostrud velit amet minim qui nostrud qui laborum dolore eiusmod. Voluptate ex est labore id culpa amet voluptate consequat amet labore do sunt. Laborum nisi officia est nostrud dolor nisi ad labore mollit. Irure consequat esse esse.',
     agency: 'Make Me Modern',
     roles: ['Strategy', 'Design', 'Development'],
-    media: [],
+    media: [
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'landscape',
+      },
+      {
+        type: 'image',
+        name: 'wepco-details',
+        orientation: 'portrait',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'portrait',
+      },
+      {
+        type: 'image',
+        name: 'wepco-design-system',
+        orientation: 'landscape',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'portrait',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'portrait',
+      },
+      {
+        type: 'image',
+        name: 'wepco-mobile-views',
+        orientation: 'landscape',
+      },
+    ],
   },
 ];

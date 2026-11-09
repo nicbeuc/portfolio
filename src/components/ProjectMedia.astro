@@ -30,6 +30,21 @@ const { title, media } = Astro.props;
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-01);
     margin-top: calc(var(--page-height-basis) * 0.4);
+    timeline-trigger-source: view();
+    timeline-trigger-activation-range-start: entry 50%;
+    timeline-trigger-activation-range-end: exit 50%;
+  }
+
+  .wrapper:first-of-type {
+    timeline-trigger-name: --project1;
+  }
+
+  .wrapper:nth-of-type(2) {
+    timeline-trigger-name: --project2;
+  }
+
+  .wrapper:nth-of-type(3) {
+    timeline-trigger-name: --project3;
   }
 
   .media-item {

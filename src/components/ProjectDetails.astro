@@ -28,15 +28,87 @@ const { title, description, agency, roles } = Astro.props;
 
 <style>
   .wrapper {
+    font-size: var(--font-size-heading-sm);
     min-height: var(--page-height-basis);
+    position: relative;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "a a a a"
+      "b b b b"
+      "c c c c";
+    padding-top: calc((var(--page-height-basis) * 0.4) + 1lh);
+    padding-bottom: var(--page-margin-y);
+    opacity: 0.001;
+    animation: projectFadeIn var(--duration-slow) var(--ease-out-quart) both var(--duration-slow);
   }
 
-  /* .wrapper:not(:first-child) {
-    padding-top: calc(var(--page-height-basis) * 0.4);
+  .wrapper:first-of-type {
+    animation-trigger: --project1 play-forwards play-backwards;
+  }
+
+  .wrapper:nth-of-type(2) {
+    animation-trigger: --project2 play-forwards play-backwards;
+  }
+
+  .wrapper:nth-of-type(3) {
+    animation-trigger: --project3 play-forwards play-backwards;
+  }
+
+  /* .wrapper:not(:first-of-type) {
+    opacity: 0.001;
   } */
 
   h3 {
+    grid-area: a;
     font-size: var(--font-size-heading-sm);
     margin-bottom: var(--spacing-02);
+  }
+
+  p {
+    grid-area: b;
+    font-size: var(--font-size-body);
+  }
+
+  dl {
+    grid-area: c;
+    font-size: var(--font-size-body);
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-areas:
+      "d d f f"
+      "e e g g"
+  }
+
+  dt {
+    color: var(--color-foreground-dimmed);
+  }
+
+  dt:first-of-type {
+    grid-area: d;
+  }
+
+  dd:first-of-type {
+    grid-area: e;
+  }
+
+  dt:last-of-type {
+    grid-area: f;
+  }
+
+  dd:last-of-type {
+    grid-area: g;
+  }
+
+  @keyframes projectFadeIn {
+    from {
+      opacity: 0.001;
+    }
+    to {
+      opacity: 1;
+    }
   }
 </style>

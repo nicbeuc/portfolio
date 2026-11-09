@@ -43,9 +43,11 @@ import ProjectDetails from '@/components/ProjectDetails.astro';
   h2 {
     color: var(--color-foreground-dimmed);
     font-size: var(--font-size-heading-sm);
-    position: sticky;
     top: calc(var(--page-height-basis) * 0.4);
+    position: sticky;
     margin-top: calc(var(--page-height-basis) * 0.4);
+    grid-column: 1 / -1;
+    grid-row-start: 1;
   }
 
   .text {
@@ -54,6 +56,8 @@ import ProjectDetails from '@/components/ProjectDetails.astro';
     top: 0;
     height: var(--page-height-basis);
     overflow: hidden;
+    display: grid;
+    grid-template-columns: subgrid;
   }
 
   .media {
