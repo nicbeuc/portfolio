@@ -13,7 +13,7 @@ import Video from '@/components/Video.astro';
     --reel-spacing: var(--spacing-06);
     position: relative;
     z-index: 2;
-    margin-top: calc((var(--page-height-basis) / 2) + var(--reel-spacing));
+    margin-top: calc(var(--hero-offset) + var(--reel-spacing));
 
     @media (width < 990px) {
       --reel-spacing: var(--spacing-04);

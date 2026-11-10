@@ -34,10 +34,15 @@ const currentYear = new Date().getFullYear();
     padding-bottom: var(--page-margin-y);
     position: relative;
     z-index: 2;
+    background: linear-gradient(to bottom, transparent , var(--color-background) 25%);
 
     /* Weird bug in Chrome where the opposite of the above property takes effect */
     @supports (not (-webkit-hyphens:none)) and (not (-moz-appearance:none)) and (list-style-type:"*") {
       grid-template-rows: auto 1fr;
+    }
+
+    @media (width < 990px) {
+      background: var(--color-background);
     }
   }
 

@@ -5,17 +5,24 @@ import Video from '@/components/Video.astro';
 
 interface Props {
   title: string;
+  index: number;
+  projectCount: number;
   description: string;
   agency: string;
   roles: ProjectRole[];
   media: ProjectMedia[];
 }
 
-const { title, description, agency, roles, media } = Astro.props;
+const { title, index, projectCount, description, agency, roles, media } = Astro.props;
 ---
 
-<div class="project">
-  <div class="details">
+<project-component
+  class="project"
+  data-trigger-name={`--projectTrigger${index}`}
+  data-trigger-start-point={0.6}
+  data-trigger-end-point={index === projectCount ? 0 : 0.2}
+>
+  <div class="details" data-animation-target>
     <h3>{title}</h3>
     <p>{description}</p>
     <dl>
@@ -30,8 +37,9 @@ const { title, description, agency, roles, media } = Astro.props;
     </dl>
   </div>
   <div class="media">
+    <span data-sentinel="start" aria-hidden="true"></span>
     {media.map((item) => (
-      <div class="media-item" data-orientation={item.orientation}>
+      <div class="media-item" data-orientation={item.orientation} data-span={item.span}>
         {item.type === 'image' ? (
           <Image src={getProjectImage(item.name)} alt={title} />
         ) : (
@@ -39,20 +47,41 @@ const { title, description, agency, roles, media } = Astro.props;
         )}
       </div>
     ))}
+    <span data-sentinel="end" aria-hidden="true"></span>
   </div>
-</div>
+</project-component>
 
 <style>
   .project {
+    --project-animation-trigger-name: attr(data-trigger-name type(<custom-ident>));
+    --project-animation-trigger: var(--project-animation-trigger-name) play-forwards play-backwards;
+    --project-animation-trigger-start-point: attr(data-trigger-start-point type(<number>));
+    --project-animation-trigger-end-point: attr(data-trigger-end-point type(<number>));
+    --project-animation-base-delay: 0ms;
+    --project-animation-delay-step: 50ms;
+    --project-animation-blur-strength: 4px;
+    --project-animation-translate-distance: 10px;
     display: grid;
+    position: relative;
+    isolation: isolate;
     grid-column: 1 / -1;
     align-items: start;
     grid-template-columns: subgrid;
+    z-index: calc(sibling-count() - sibling-index() + 1);
     grid-template-areas:
       "a a a a a b b b b b b b";
-    timeline-trigger-source: view();
-    timeline-trigger-activation-range-start: entry 60%;
-    timeline-trigger-activation-range-end: exit 20%;
+    timeline-trigger: var(--project-animation-trigger-name) view() entry calc(var(--project-animation-trigger-start-point) * 100%) exit calc(var(--project-animation-trigger-end-point) * 100%);
+
+    @media (width < 990px) {
+      --project-animation-trigger-start-point: 0;
+      --project-animation-trigger-end-point: 0.5;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      --project-animation-blur-strength: 0px;
+      --project-animation-translate-distance: 0px;
+      --project-animation-delay-step: 0ms;
+    }
   }
 
   .project:not(:first-of-type) {
@@ -61,46 +90,10 @@ const { title, description, agency, roles, media } = Astro.props;
     }
   }
 
-  .project:first-of-type {
-    timeline-trigger-name: --projectTrigger1;
-  }
-
-  .project:nth-of-type(2) {
-    timeline-trigger-name: --projectTrigger2;
-  }
-
-  .project:nth-of-type(3) {
-    timeline-trigger-name: --projectTrigger3;
-  }
-
-  .project:first-of-type {
-    --details-animation-timeline: --projectView1;
-    --details-animation-trigger: --projectTrigger1 play-forwards play-backwards;
-  }
-
-  .project:nth-of-type(2) {
-    --details-animation-timeline: --projectView2;
-    --details-animation-trigger: --projectTrigger2 play-forwards play-backwards;
-  }
-
-  .project:nth-of-type(3) {
-    --details-animation-timeline: --projectView3;
-    --details-animation-trigger: --projectTrigger3 play-forwards play-backwards;
-  }
-
-  .project:last-of-type {
-    timeline-trigger-activation-range-end: exit 0%;
-  }
-
   .details {
-    --details-animation-base-delay: 0ms;
-    --details-animation-delay-step: 50ms;
-    --details-animation-blur-strength: 4px;
-    --details-animation-translate-distance: 10px;
     grid-area: a;
-    font-size: var(--font-size-heading-sm);
-    height: var(--page-height-basis);
-    position: relative;
+    position: sticky;
+    top: 0;
     display: grid;
     align-items: start;
     grid-template-columns: subgrid;
@@ -109,40 +102,25 @@ const { title, description, agency, roles, media } = Astro.props;
       "c c c c"
       "d d d d"
       "e e e e";
-    position: sticky;
-    top: 0;
+    font-size: var(--font-size-heading-sm);
+    height: var(--page-height-basis);
     padding-top: calc(var(--projects-top-offset) + 1lh);
     padding-bottom: var(--page-margin-y);
     /* Help to ensure no shifting occurs when details are scrolled in/out of view. */
     margin-top: calc(var(--page-height-basis) * -3);
     margin-bottom: calc(var(--page-height-basis) * -3);
+    z-index: -1;
 
     @media (width < 990px) {
-      --details-animation-base-delay: 0ms;
       grid-template-rows: auto auto auto;
       align-content: start;
       align-items: start;
-
-      /* Polyfill for mobile browsers that don't support timeline-trigger-name. */
-      /* @supports not (timeline-trigger-name: --t) {
-        will-change: filter, opacity;
-        opacity: 0.001;
-        filter: blur(var(--details-animation-blur-strength));
-        background-color: var(--color-background);
-        animation: detailsFadeIn linear backwards, detailsFadeOut linear forwards;
-        animation-timeline: var(--details-animation-timeline), var(--details-animation-timeline);
-        animation-range: cover -50% cover 0%, contain 0% contain 100%;
-      } */
     }
   }
 
   .project:first-of-type .details {
     margin-top: calc((var(--projects-top-offset) + 1lh) * -1);
   }
-
-  /* .wrapper:not(:first-of-type) {
-    opacity: 0.001;
-  } */
 
   h3 {
     grid-area: c;
@@ -161,15 +139,18 @@ const { title, description, agency, roles, media } = Astro.props;
     }
   }
 
+  .details > *:last-child {
+    --project-details-lastchild-index: calc(sibling-count() - 1);
+  }
+
   dl {
-    --dl-index: 2;
     grid-area: e;
-    font-size: var(--font-size-body);
     display: grid;
     grid-template-columns: subgrid;
     grid-template-areas:
       "f f h h"
       "g g i i";
+    font-size: var(--font-size-body);
 
     @media (width < 768px) {
       font-size: var(--font-size-body-sm);
@@ -199,33 +180,32 @@ const { title, description, agency, roles, media } = Astro.props;
   h3, p, dt, dd {
     will-change: opacity, filter, transform;
     opacity: 0.001;
-    filter: blur(var(--details-animation-blur-strength));
-    transform: translate3d(0px, var(--details-animation-translate-distance), 0px);
-    animation-name: detailsFadeInUp;
+    filter: blur(var(--project-animation-blur-strength));
+    transform: translate3d(0px, var(--project-animation-translate-distance), 0px);
     animation-duration: var(--duration-medium);
     animation-timing-function: var(--ease-in-out-cubic);
-    animation-delay: calc(var(--details-animation-base-delay) + (var(--details-animation-delay-step) * ((var(--dl-index, 0) + sibling-index()) - 1)));
+    animation-delay: calc(var(--project-animation-base-delay) + (var(--project-animation-delay-step) * ((var(--project-details-lastchild-index, 0) + sibling-index()) - 1)));
     animation-fill-mode: both;
-    animation-trigger: var(--details-animation-trigger);
+    animation-name: detailsFadeInUp;
 
-    @media (width < 990px) {
-      /* Polyfill for mobile browsers that don't support timeline-trigger-name. */
-      /* @supports not (timeline-trigger-name: --t) {
-        will-change: initial;
-        opacity: initial;
-        filter: initial;
-        transform: initial;
-        animation-trigger: unset;
-        animation: none;
-      } */
+    @media (prefers-reduced-motion: reduce) {
+      will-change: opacity;
+    }
+
+    @supports (timeline-trigger-name: --t) {
+      animation-trigger: var(--project-animation-trigger);
+    }
+
+    @supports not (timeline-trigger-name: --t) {
+      animation-play-state: paused;
     }
   }
 
   @keyframes detailsFadeInUp {
     from {
-      transform: translate3d(0px, var(--details-animation-translate-distance), 0px);
+      transform: translate3d(0px, var(--project-animation-translate-distance), 0px);
       opacity: 0.001;
-      filter: blur(var(--details-animation-blur-strength));
+      filter: blur(var(--project-animation-blur-strength));
     }
     to {
       transform: translate3d(0px, 0px, 0px);
@@ -235,22 +215,49 @@ const { title, description, agency, roles, media } = Astro.props;
   }
 
   .media {
+    position: relative;
     grid-area: b;
     display: grid;
+    grid-auto-flow: dense;
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-01);
     background-color: var(--color-background);
-    padding-bottom: var(--projects-top-offset);
+    margin-bottom: var(--projects-top-offset);
+    z-index: 1;
 
     @media (width < 990px) {
-      margin-top: 0;
-      timeline-trigger-activation-range-start: entry -25%;
-      timeline-trigger-activation-range-end: exit -25%;
+      margin-bottom: 0;
+    }
+  }
+
+  .project:first-of-type .media {
+    @media (width < 990px) {
+      margin-top: calc(var(--page-height-basis) - var(--projects-top-offset) - 1lh);
     }
   }
 
   .project:last-of-type .media {
-    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  [data-sentinel] {
+    position: absolute;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    clip: rect(0, 0, 0, 0);
+    /* debug */
+    /* width: 100%; */
+    /* background-color: red; */
+  }
+
+  [data-sentinel="start"] {
+    top: 0;
+  }
+
+  [data-sentinel="end"] {
+    bottom: 0;
   }
 
   .media-item {
@@ -261,8 +268,32 @@ const { title, description, agency, roles, media } = Astro.props;
 
     &[data-orientation="portrait"] {
       --video-player-aspect-ratio: 118 / 135;
+    }
+
+    &[data-span="half"] {
       grid-column: span 1;
     }
+
+    &[data-span="full"] {
+      grid-column: span 2;
+    }
+  }
+
+  .media-item[data-orientation="landscape"][data-span="half"] {
+    grid-row: span 1;
+  }
+
+  .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="portrait"][data-span="half"],
+  .media-item[data-orientation="portrait"][data-span="half"]:has(+ .media-item[data-orientation="landscape"][data-span="half"]) {
+    grid-row: span 2;
+  }
+
+  .media-item[data-orientation="landscape"][data-span="half"]:has(+ .media-item[data-orientation="portrait"][data-span="half"]) {
+    grid-column-start: 1;
+  }
+
+  .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="portrait"][data-span="half"] {
+    grid-column-start: 2;
   }
 
   .media-item img,
@@ -277,3 +308,126 @@ const { title, description, agency, roles, media } = Astro.props;
     border-radius: var(--border-radius-global);
   }
 </style>
+
+<script>
+  import { supportsAnimationTrigger, prefersReducedMotion } from '@/utils';
+
+  class ProjectComponent extends HTMLElement {
+    #animations: Animation[] = [];
+    #active = false;
+    #started = false;
+    #ended = false;
+    #startObserver: IntersectionObserver | null = null;
+    #endObserver: IntersectionObserver | null = null;
+    #narrow = window.matchMedia('(width < 990px)');
+
+    connectedCallback() {
+      if (supportsAnimationTrigger() || prefersReducedMotion()) return;
+
+      this.#animations = this.getAnimations({ subtree: true })
+        .filter((animation: Animation) => animation instanceof CSSAnimation && animation.animationName === 'detailsFadeInUp');
+
+      this.#narrow.addEventListener('change', this.#connect);
+      this.#connect();
+    }
+
+    disconnectedCallback() {
+      this.#narrow.removeEventListener('change', this.#connect);
+      this.#disconnectObservers();
+    }
+
+    #connect = () => {
+      this.#disconnectObservers();
+
+      const start = this.querySelector<HTMLElement>('[data-sentinel="start"]');
+      const end = this.querySelector<HTMLElement>('[data-sentinel="end"]');
+      if (!start || !end) return;
+
+      this.#started = this.#hasPassed(start, this.#entryLineRatio());
+      this.#ended = this.#hasPassed(end, this.#exitLineRatio());
+      this.#snap(this.#started && !this.#ended);
+
+      this.#startObserver = this.#observe(start, this.#entryLineRatio(), (passed) => {
+        this.#started = passed;
+        this.#apply(this.#started && !this.#ended);
+      });
+      this.#endObserver = this.#observe(end, this.#exitLineRatio(), (passed) => {
+        this.#ended = passed;
+        this.#apply(this.#started && !this.#ended);
+      });
+    };
+
+    #disconnectObservers() {
+      this.#startObserver?.disconnect();
+      this.#endObserver?.disconnect();
+      this.#startObserver = null;
+      this.#endObserver = null;
+    }
+
+    #observe(sentinel: Element, lineFromTop: number, onPass: (passed: boolean) => void) {
+      const observer = new IntersectionObserver(([entry]) => {
+        onPass(this.#entryHasPassed(entry));
+      }, {
+        rootMargin: this.#rootMargin(lineFromTop),
+        threshold: 0,
+      });
+      observer.observe(sentinel);
+      return observer;
+    }
+
+    #entryHasPassed(entry: IntersectionObserverEntry) {
+      const root = entry.rootBounds;
+      if (!root) return false;
+      return entry.isIntersecting || entry.boundingClientRect.top < root.top;
+    }
+
+    #apply(active: boolean) {
+      if (active === this.#active) return;
+      this.#active = active;
+      for (const animation of this.#animations) {
+        const effect = animation.effect;
+        const target = effect instanceof KeyframeEffect ? effect.target : null;
+        if (target instanceof HTMLElement) target.style.animationPlayState = 'running';
+        animation.playbackRate = active ? 1 : -1;
+        animation.play();
+      }
+    }
+
+    #snap(active: boolean) {
+      this.#active = active;
+      for (const animation of this.#animations) {
+        const end = Number(animation.effect?.getComputedTiming().endTime ?? 0);
+        animation.currentTime = active ? end : 0;
+        animation.pause();
+      }
+    }
+
+    #hasPassed(sentinel: Element, lineFromTop: number) {
+      const viewport = window.visualViewport;
+      const height = viewport?.height ?? window.innerHeight;
+      const offset = viewport?.offsetTop ?? 0;
+      return sentinel.getBoundingClientRect().top - offset <= height * lineFromTop;
+    }
+
+    #entryLineRatio() {
+      return 1 - this.#ratio('--project-animation-trigger-start-point', 0.6);
+    }
+
+    #exitLineRatio() {
+      return 1 - this.#ratio('--project-animation-trigger-end-point', 0.2);
+    }
+
+    #ratio(name: string, fallback: number) {
+      const value = Number.parseFloat(getComputedStyle(this).getPropertyValue(name));
+      return Number.isFinite(value) ? value : fallback;
+    }
+
+    #rootMargin(lineFromTop: number) {
+      const line = Math.min(Math.max(lineFromTop, 0), 1);
+      if (line === 0 || line === 1) return '0px';
+      return `-${line * 100}% 0px 0px 0px`;
+    }
+  }
+
+  customElements.define('project-component', ProjectComponent);
+</script>

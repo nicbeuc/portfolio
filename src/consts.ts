@@ -42,12 +42,15 @@ export function getProjectImage(name: string) {
 
 /* Projects */
 
+export type Span = 'half' | 'full';
+
 export type Orientation = 'landscape' | 'portrait';
 
 export type ProjectRole = 'Strategy' | 'Design' | 'Development';
 
 type ProjectMediaBase = {
   orientation: Orientation;
+  span: Span;
 };
 
 type ProjectVideo = ProjectMediaBase & {
@@ -81,36 +84,43 @@ export const PROJECTS: Project[] = [
         type: 'video',
         name: 'demo',
         orientation: 'landscape',
+        span: 'full',
       },
       {
         type: 'image',
         name: 'rchiara-plp-pdp',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'landscape',
+        span: 'full',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'image',
         name: 'rchiara-resetting',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'landscape',
+        span: 'full',
       },
     ],
   },
@@ -124,51 +134,67 @@ export const PROJECTS: Project[] = [
         type: 'video',
         name: 'demo',
         orientation: 'landscape',
+        span: 'full',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'landscape',
+        span: 'full',
       },
       {
         type: 'image',
         name: 'xul-beer-mobile',
         orientation: 'portrait',
-      },
-      {
-        type: 'video',
-        name: 'demo',
-        orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'landscape',
+        span: 'half',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'landscape',
+        span: 'half',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'landscape',
+        span: 'full',
       },
       {
         type: 'image',
         name: 'xul-password',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'image',
         name: 'xul-finder',
         orientation: 'landscape',
+        span: 'full',
       },
     ],
   },
@@ -182,36 +208,55 @@ export const PROJECTS: Project[] = [
         type: 'video',
         name: 'demo',
         orientation: 'landscape',
+        span: 'full',
       },
       {
         type: 'image',
         name: 'wepco-details',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'image',
         name: 'wepco-design-system',
         orientation: 'landscape',
+        span: 'full',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'landscape',
+        span: 'half',
+      },
+      {
+        type: 'video',
+        name: 'demo',
+        orientation: 'landscape',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
         orientation: 'portrait',
+        span: 'half',
       },
       {
         type: 'video',
         name: 'demo',
-        orientation: 'portrait',
+        orientation: 'landscape',
+        span: 'full',
       },
       {
         type: 'image',
         name: 'wepco-mobile-views',
         orientation: 'landscape',
+        span: 'full',
       },
     ],
   },

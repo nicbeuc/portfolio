@@ -80,7 +80,7 @@ h6 {
   --page-margin-x: 2rem;
   --page-margin-y: 1rem;
   --page-height-basis: max(40rem, 100vh);
-  --page-height-basis: max(40rem, 100svh);
+  --page-height-basis: max(40rem, 100lvh);
 
   /* Grid */
   --grid-global-columns: 12;
@@ -127,9 +127,12 @@ h6 {
   /* Border Radii */
   --border-radius-global: clamp(4px, 1vw, 8px);
 
+  /* Hero */
+  --hero-offset: calc(max(50rem, 100lvh) / 2);
+
   @media (width < 990px) {
     --page-margin-x: 1rem;
-    --page-height-basis: max(40rem, 100svh);
+    --page-height-basis: max(40rem, 100lvh);
     --header-collapse-distance: 12.5rem;
     --grid-global-columns: 4;
     --grid-global-gutter: 0.5rem;
