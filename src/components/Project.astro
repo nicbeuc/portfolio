@@ -63,35 +63,14 @@ const { title, description, agency, roles, media } = Astro.props;
 
   .project:first-of-type {
     timeline-trigger-name: --projectTrigger1;
-
-    @media (width < 990px) {
-      @supports not (timeline-trigger-name: --t) {
-        timeline-trigger-name: unset;
-        view-timeline-name: --projectView1;
-      }
-    }
   }
 
   .project:nth-of-type(2) {
     timeline-trigger-name: --projectTrigger2;
-
-    @media (width < 990px) {
-      @supports not (timeline-trigger-name: --t) {
-        timeline-trigger-name: unset;
-        view-timeline-name: --projectView2;
-      }
-    }
   }
 
   .project:nth-of-type(3) {
     timeline-trigger-name: --projectTrigger3;
-
-    @media (width < 990px) {
-      @supports not (timeline-trigger-name: --t) {
-        timeline-trigger-name: unset;
-        view-timeline-name: --projectView3;
-      }
-    }
   }
 
   .project:first-of-type {
@@ -145,20 +124,15 @@ const { title, description, agency, roles, media } = Astro.props;
       align-items: start;
 
       /* Polyfill for mobile browsers that don't support timeline-trigger-name. */
-      @supports not (timeline-trigger-name: --t) {
-        border: 1px solid red !important;
+      /* @supports not (timeline-trigger-name: --t) {
         will-change: filter, opacity;
         opacity: 0.001;
         filter: blur(var(--details-animation-blur-strength));
         background-color: var(--color-background);
-        /* Mobile browsers don't currently support setting two separate animations for the same timeline. */
-        /* animation: detailsFadeIn linear backwards, detailsFadeOut linear forwards;
+        animation: detailsFadeIn linear backwards, detailsFadeOut linear forwards;
         animation-timeline: var(--details-animation-timeline), var(--details-animation-timeline);
-        animation-range: cover -50% cover 0%, contain 0% contain 100%; */
-        animation: detailsFadeIn linear both;
-        animation-timeline: var(--details-animation-timeline);
-        animation-range: entry -20% entry 0%;
-      }
+        animation-range: cover -50% cover 0%, contain 0% contain 100%;
+      } */
     }
   }
 
@@ -236,36 +210,14 @@ const { title, description, agency, roles, media } = Astro.props;
 
     @media (width < 990px) {
       /* Polyfill for mobile browsers that don't support timeline-trigger-name. */
-      @supports not (timeline-trigger-name: --t) {
+      /* @supports not (timeline-trigger-name: --t) {
         will-change: initial;
         opacity: initial;
         filter: initial;
         transform: initial;
         animation-trigger: unset;
         animation: none;
-      }
-    }
-  }
-
-  @keyframes detailsFadeIn {
-    from {
-      opacity: 0.001;
-      filter: blur(var(--details-animation-blur-strength));
-    }
-    to {
-      opacity: 1;
-      filter: blur(0px);
-    }
-  }
-
-  @keyframes detailsFadeOut {
-    from {
-      opacity: 1;
-      filter: blur(0px);
-    }
-    to {
-      opacity: 0.001;
-      filter: blur(var(--details-animation-blur-strength));
+      } */
     }
   }
 
