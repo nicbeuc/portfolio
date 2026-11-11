@@ -77,7 +77,7 @@ h6 {
   --color-background-dimmed: hsla(0 0 97.5%);
 
   /* Layout */
-  --page-margin-x: 2rem;
+  --page-margin-x: 1.5rem;
   --page-margin-y: 1rem;
   --page-height-basis: max(40rem, 100vh);
   --page-height-basis: max(40rem, 100lvh);
@@ -131,7 +131,7 @@ h6 {
   --hero-offset: calc(max(50rem, 100lvh) / 2);
 
   @media (width < 990px) {
-    --page-margin-x: 1rem;
+    --page-margin-x: .75rem;
     --page-height-basis: max(40rem, 100lvh);
     --header-collapse-distance: 12.5rem;
     --grid-global-columns: 4;

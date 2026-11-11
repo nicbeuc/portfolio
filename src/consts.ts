@@ -78,7 +78,7 @@ export const PROJECTS: Project[] = [
     title: 'R. Chiara',
     description: 'Fugiat ullamco commodo cillum nostrud velit amet minim qui nostrud qui laborum dolore eiusmod. Voluptate ex est labore id culpa amet voluptate consequat amet labore do sunt. Laborum nisi officia est nostrud dolor nisi ad labore mollit. Irure consequat esse esse.',
     agency: 'Make Me Modern',
-    roles: ['Strategy', 'Design', 'Development'],
+    roles: ['Design', 'Development'],
     media: [
       {
         type: 'video',
@@ -128,7 +128,7 @@ export const PROJECTS: Project[] = [
     title: 'Xül Beer Company',
     description: 'Fugiat ullamco commodo cillum nostrud velit amet minim qui nostrud qui laborum dolore eiusmod. Voluptate ex est labore id culpa amet voluptate consequat amet labore do sunt. Laborum nisi officia est nostrud dolor nisi ad labore mollit. Irure consequat esse esse.',
     agency: 'Make Me Modern',
-    roles: ['Strategy', 'Design', 'Development'],
+    roles: ['Design', 'Development'],
     media: [
       {
         type: 'video',
@@ -202,7 +202,7 @@ export const PROJECTS: Project[] = [
     title: 'Wide Eyes Paper Co.',
     description: 'Fugiat ullamco commodo cillum nostrud velit amet minim qui nostrud qui laborum dolore eiusmod. Voluptate ex est labore id culpa amet voluptate consequat amet labore do sunt. Laborum nisi officia est nostrud dolor nisi ad labore mollit. Irure consequat esse esse.',
     agency: 'Make Me Modern',
-    roles: ['Strategy', 'Design', 'Development'],
+    roles: ['Design', 'Development'],
     media: [
       {
         type: 'video',

@@ -100,7 +100,7 @@ const { title, index, projectCount, description, agency, roles, media } = Astro.
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
       "c c c c"
-      "d d d d"
+      "d d d ."
       "e e e e";
     font-size: var(--font-size-heading-sm);
     height: var(--page-height-basis);
@@ -113,6 +113,10 @@ const { title, index, projectCount, description, agency, roles, media } = Astro.
 
     @media (width < 990px) {
       grid-template-rows: auto auto auto;
+      grid-template-areas:
+        "c c c c"
+        "d d d d"
+        "e e e e";
       align-content: start;
       align-items: start;
     }
@@ -130,7 +134,7 @@ const { title, index, projectCount, description, agency, roles, media } = Astro.
 
   p {
     grid-area: d;
-    font-size: var(--font-size-body);
+    font-size: var(--font-size-body-sm);
     margin-bottom: var(--spacing-04);
     color: var(--color-foreground-dimmed);
 
@@ -150,7 +154,7 @@ const { title, index, projectCount, description, agency, roles, media } = Astro.
     grid-template-areas:
       "f f h h"
       "g g i i";
-    font-size: var(--font-size-body);
+    font-size: var(--font-size-body-sm);
 
     @media (width < 768px) {
       font-size: var(--font-size-body-sm);
