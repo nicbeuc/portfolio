@@ -3,8 +3,27 @@ import type { ImageMetadata } from 'astro';
 /* Video Lookup */
 
 export const VIDEO_PLAYBACK_IDS = {
-  demo: 'A3VXy02VoUinw01pwyomEO3bHnG4P32xzV7u1j1FSzjNg',
-  reel: 'M6N681neg02Bu5Gl1ziIHzMW8gH8sP2yL8XO019ngN1UM',
+  'demo': 'A3VXy02VoUinw01pwyomEO3bHnG4P32xzV7u1j1FSzjNg',
+  'reel': 'M6N681neg02Bu5Gl1ziIHzMW8gH8sP2yL8XO019ngN1UM',
+  'rchiara-overview': 'SccJhIoYgTvQ5h4IcTPLrFhlfJRXNIV7yTntize4JEY',
+  'rchiara-banners': 'UyrXEUofZ6iu4EbhPPIi1wC902s00WNXloX6JUggcFk9E',
+  'rchiara-cards': 'SIb5aEh1NX1ZGbUsqspH3tFhallmJyg11NUaqnn3pfg',
+  'rchiara-pdp-showcase': 'NWOUDBGRcl8lrhnwKMD655ZqxsHi9xufdxHS6PO7zfQ',
+  'rchiara-typography': 'wNqcOYm4uY7metS5cdKzVtOxuEvFUGE3Na6jo3009Kls',
+  'xul-beers': 'n00Q6lRS5uTj3UIf9F9do6mZXxDsabXJy01rhWGVzaMSY',
+  'xul-button': 'Rtw00iHD91iFWuCWBEO01w9EPU1RbTkwxRHFPtFkVo02rQ',
+  'xul-crew': 'U02MGUTVUyzGLIX00dkw202UFbq9ffsHec01sATjo7xlj6g',
+  'xul-foil': 'zqF3Rr4f02CQrZcGnzeEc3aRZOMWwKAsPSosdEnlEyzY',
+  'xul-index': 'nyfRRFNr7Jd27WebvefrCft8xNb00KR4LGRjFdJ7dBuo',
+  'xul-menu': '02cTxqtJWTBnBLCNs9J8AtNy5481HrczNgyrwyRchrxE',
+  'xul-pagination': 'DeLmgvR02ZmcZf3spxWliQGiiSlo2GyRTN01q6ghGpQdc',
+  'xul-scroll': 'jvSB601kOm01NlGQ3ZHnpa1VXKYoG16dH3392QNXNy4n4',
+  'wepco-faq': 'x02C7k00aKF8rRO15x4mvFX1cH2PmqY01EVRDXdxOWGfWY',
+  'wepco-hover': 'sJ9LBNM58gFZgZSize16iBDcIfDsEA2kJMQQ02EIu6uo',
+  'wepco-inspiration': 'X1YyYqwYhMuLCAOPyDfBOKHXW74300uZBRNugPMGi00KY',
+  'wepco-services': '5qS02KH4s02148v0000joQE3wV7PlAo00xkFPBYoNc15I5WM',
+  'wepco-showcase': 'Yeqk5sshP00YVZUEjrO1c1tsqpw156p48MZipkP3LdyQ',
+  'wepco-stamps': 'eNqC00h76Vo8B4uIvOh7chpS02gHK8Qji02jRMGUCTCmzQ'
 } as const;
 
 export type VideoName = keyof typeof VIDEO_PLAYBACK_IDS;
@@ -75,56 +94,6 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
-    title: 'R. Chiara',
-    description: 'Fugiat ullamco commodo cillum nostrud velit amet minim qui nostrud qui laborum dolore eiusmod. Voluptate ex est labore id culpa amet voluptate consequat amet labore do sunt. Laborum nisi officia est nostrud dolor nisi ad labore mollit. Irure consequat esse esse.',
-    agency: 'Make Me Modern',
-    roles: ['Design', 'Development'],
-    media: [
-      {
-        type: 'video',
-        name: 'demo',
-        orientation: 'landscape',
-        span: 'full',
-      },
-      {
-        type: 'image',
-        name: 'rchiara-plp-pdp',
-        orientation: 'portrait',
-        span: 'half',
-      },
-      {
-        type: 'video',
-        name: 'demo',
-        orientation: 'portrait',
-        span: 'half',
-      },
-      {
-        type: 'video',
-        name: 'demo',
-        orientation: 'landscape',
-        span: 'full',
-      },
-      {
-        type: 'video',
-        name: 'demo',
-        orientation: 'portrait',
-        span: 'half',
-      },
-      {
-        type: 'image',
-        name: 'rchiara-resetting',
-        orientation: 'portrait',
-        span: 'half',
-      },
-      {
-        type: 'video',
-        name: 'demo',
-        orientation: 'landscape',
-        span: 'full',
-      },
-    ],
-  },
-  {
     title: 'Xül Beer Company',
     description: 'Fugiat ullamco commodo cillum nostrud velit amet minim qui nostrud qui laborum dolore eiusmod. Voluptate ex est labore id culpa amet voluptate consequat amet labore do sunt. Laborum nisi officia est nostrud dolor nisi ad labore mollit. Irure consequat esse esse.',
     agency: 'Make Me Modern',
@@ -132,25 +101,25 @@ export const PROJECTS: Project[] = [
     media: [
       {
         type: 'video',
-        name: 'demo',
+        name: 'xul-scroll',
         orientation: 'landscape',
         span: 'full',
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'xul-foil',
         orientation: 'portrait',
         span: 'half',
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'xul-menu',
         orientation: 'portrait',
         span: 'half',
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'xul-beers',
         orientation: 'landscape',
         span: 'full',
       },
@@ -162,19 +131,19 @@ export const PROJECTS: Project[] = [
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'xul-pagination',
         orientation: 'landscape',
         span: 'half',
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'xul-button',
         orientation: 'landscape',
         span: 'half',
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'xul-index',
         orientation: 'landscape',
         span: 'full',
       },
@@ -186,13 +155,63 @@ export const PROJECTS: Project[] = [
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'xul-crew',
         orientation: 'portrait',
         span: 'half',
       },
       {
         type: 'image',
         name: 'xul-finder',
+        orientation: 'landscape',
+        span: 'full',
+      },
+    ],
+  },
+  {
+    title: 'R. Chiara',
+    description: 'Fugiat ullamco commodo cillum nostrud velit amet minim qui nostrud qui laborum dolore eiusmod. Voluptate ex est labore id culpa amet voluptate consequat amet labore do sunt. Laborum nisi officia est nostrud dolor nisi ad labore mollit. Irure consequat esse esse.',
+    agency: 'Make Me Modern',
+    roles: ['Design', 'Development'],
+    media: [
+      {
+        type: 'video',
+        name: 'rchiara-overview',
+        orientation: 'landscape',
+        span: 'full',
+      },
+      {
+        type: 'image',
+        name: 'rchiara-plp-pdp',
+        orientation: 'portrait',
+        span: 'half',
+      },
+      {
+        type: 'video',
+        name: 'rchiara-typography',
+        orientation: 'portrait',
+        span: 'half',
+      },
+      {
+        type: 'video',
+        name: 'rchiara-pdp-showcase',
+        orientation: 'landscape',
+        span: 'full',
+      },
+      {
+        type: 'video',
+        name: 'rchiara-banners',
+        orientation: 'portrait',
+        span: 'half',
+      },
+      {
+        type: 'image',
+        name: 'rchiara-resetting',
+        orientation: 'portrait',
+        span: 'half',
+      },
+      {
+        type: 'video',
+        name: 'rchiara-cards',
         orientation: 'landscape',
         span: 'full',
       },
@@ -206,7 +225,7 @@ export const PROJECTS: Project[] = [
     media: [
       {
         type: 'video',
-        name: 'demo',
+        name: 'wepco-showcase',
         orientation: 'landscape',
         span: 'full',
       },
@@ -218,7 +237,7 @@ export const PROJECTS: Project[] = [
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'wepco-stamps',
         orientation: 'portrait',
         span: 'half',
       },
@@ -230,25 +249,25 @@ export const PROJECTS: Project[] = [
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'wepco-faq',
         orientation: 'landscape',
         span: 'half',
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'wepco-hover',
         orientation: 'landscape',
         span: 'half',
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'wepco-inspiration',
         orientation: 'portrait',
         span: 'half',
       },
       {
         type: 'video',
-        name: 'demo',
+        name: 'wepco-services',
         orientation: 'landscape',
         span: 'full',
       },

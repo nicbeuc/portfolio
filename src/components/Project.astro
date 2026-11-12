@@ -254,6 +254,10 @@ const { title, index, projectCount, description, agency, roles, media } = Astro.
     /* debug */
     /* width: 100%; */
     /* background-color: red; */
+
+    @supports (timeline-trigger-name: --t) {
+      display: none;
+    }
   }
 
   [data-sentinel="start"] {
@@ -274,8 +278,11 @@ const { title, index, projectCount, description, agency, roles, media } = Astro.
       --video-player-aspect-ratio: 118 / 135;
     }
 
-    &[data-span="half"] {
-      grid-column: span 1;
+
+    @media (width >= 768px) {
+      &[data-span="half"] {
+        grid-column: span 1;
+      }
     }
 
     &[data-span="full"] {
@@ -283,21 +290,23 @@ const { title, index, projectCount, description, agency, roles, media } = Astro.
     }
   }
 
-  .media-item[data-orientation="landscape"][data-span="half"] {
-    grid-row: span 1;
-  }
+  @media (width >= 768px) {
+    .media-item[data-orientation="landscape"][data-span="half"] {
+      grid-row: span 1;
+    }
 
-  .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="portrait"][data-span="half"],
-  .media-item[data-orientation="portrait"][data-span="half"]:has(+ .media-item[data-orientation="landscape"][data-span="half"]) {
-    grid-row: span 2;
-  }
+    .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="portrait"][data-span="half"],
+    .media-item[data-orientation="portrait"][data-span="half"]:has(+ .media-item[data-orientation="landscape"][data-span="half"]) {
+      grid-row: span 2;
+    }
 
-  .media-item[data-orientation="landscape"][data-span="half"]:has(+ .media-item[data-orientation="portrait"][data-span="half"]) {
-    grid-column-start: 1;
-  }
+    .media-item[data-orientation="landscape"][data-span="half"]:has(+ .media-item[data-orientation="portrait"][data-span="half"]) {
+      grid-column-start: 1;
+    }
 
-  .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="portrait"][data-span="half"] {
-    grid-column-start: 2;
+    .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="landscape"][data-span="half"] + .media-item[data-orientation="portrait"][data-span="half"] {
+      grid-column-start: 2;
+    }
   }
 
   .media-item img,

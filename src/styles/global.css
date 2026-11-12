@@ -128,9 +128,10 @@ h6 {
   --border-radius-global: clamp(4px, 1vw, 8px);
 
   /* Hero */
-  --hero-offset: calc(max(50rem, 100lvh) / 2);
+  --hero-offset: calc(max(45rem, 75lvh) / 2);
 
   @media (width < 990px) {
+    --hero-offset: calc(max(50rem, 100lvh) / 2);
     --page-margin-x: .75rem;
     --page-height-basis: max(40rem, 100lvh);
     --header-collapse-distance: 12.5rem;
